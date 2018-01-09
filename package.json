@@ -1,6 +1,6 @@
 {
   "name": "docsify-ts-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate documentation on TypeScript API for docsify tool",
   "main": "index.js",
   "bin": "bin/tsdoc.js",
