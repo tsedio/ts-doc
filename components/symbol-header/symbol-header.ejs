@@ -1,0 +1,10 @@
+<header class="symbol-info-header">
+    <h1 id="<%- id %>"><%- symbol.symbolName %></h1>
+    <label class="symbol-info-type-label <%- symbol.symbolType %>"><%- symbol.symbolLabel %></label>
+
+    <%
+    labels.forEach((label) => {
+    %>
+    <%- components.symbolLabel(label) %>
+    <% }) %>
+</header>

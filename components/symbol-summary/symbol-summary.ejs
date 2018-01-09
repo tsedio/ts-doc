@@ -1,0 +1,25 @@
+<section class="symbol-info">
+    <table class="is-full-width">
+        <tbody>
+        <tr>
+            <th>Module</th>
+            <td>
+                <div class="lang-typescript">
+                    <span class="token keyword">import</span> { <%- symbol.symbolName %> }&nbsp;
+                    <span class="token keyword">from</span>&nbsp;
+                    <span class="token string"><%- symbol.modulePath() %></span>
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Source</th>
+            <td>
+                <a href="<%- symbol.url %>">
+                    <%- symbol.path %>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
