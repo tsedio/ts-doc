@@ -1,5 +1,5 @@
 'use strict';
 const { buildApi } = require('./lib/tasks/build-api');
-modules.exports = {
+module.exports = {
   buildApi
 };
