@@ -6,7 +6,7 @@
     <h4 id="<%- module.toString().replace('/', '') %>">
         <a href="#/<%- route %>?id=<%- module.toString().replace('/', '') %>"
            data-id="<%- module.toString().replace('/', '') %>" class="anchor">
-            <span><%- module %></span>
+            <span><%- scope ? scope + "/" : "" %><%- module %></span>
         </a>
     </h4>
 
