@@ -1,24 +1,23 @@
 <%# Constructor %>
 <% if (hasConstructor) { %>
 
-### Constructor
+## Constructor
 
 <% if (hasConstructorOverview) { %>
 <%- components.codeHighlight(construct.overview) %>
 <% } %>
 <% if (construct.description) { %>
+::: v-pre
 <%- construct.description %>
+:::
 <% } %>
 <% } %>
-<%# Members %>
 <% if (members.length) { %>
-
-### Members
-
+## Members
 <% members.forEach((member, index, map) => { %>
 <%- components.symbolMember(member) %>
 <% if (index !== map.length - 1) { %>
-<hr/>
+***
 <% } %>
 <% }) %>
 <% } %>

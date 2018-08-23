@@ -1,25 +1,30 @@
+---
+sidebar: auto
+---
 <%- components.symbolHeader(symbol) %>
-<!-- summary -->
+<!-- Summary -->
 <%- components.symbolSummary(symbol) %>
-<!-- overview -->
 <% if(symbol.overview) { %>
-
-### Overview
+<!-- Overview -->
+## Overview
 
 <%- components.codeHighlight(symbol.overview, symbol.symbolName) %>
-<% } %>
-<!-- Parameters -->
-<% if (hasParams) { %>
+<% }
+
+if (hasParams) { %>
 <%- components.symbolParams(params, symbol.overview) %>
-<% } %>
+<% }
+
+if (description) { %>
 <!-- Description -->
-<% if (description) { %>
+## Description
 
-### Description
-
+::: v-pre
 <%- description %>
-<% } %>
+:::
+<% }
+
+if (symbol.members.length) { %>
 <!-- Members -->
-<% if (symbol.members.length) { %>
 <%- components.symbolMembers(symbol) %>
 <% } %>

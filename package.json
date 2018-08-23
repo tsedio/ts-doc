@@ -1,7 +1,7 @@
 {
-  "name": "docsify-ts-api",
+  "name": "@typedproject/ts-doc",
   "version": "2.0.2",
-  "description": "Generate documentation on TypeScript API for docsify tool",
+  "description": "Generate documentation in markdown for TypeScript API",
   "main": "index.js",
   "bin": "bin/tsdoc.js",
   "scripts": {
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Romakita/docsify-ts-api.git"
+    "url": "git+ssh://git@github.com/TypeProject/ts-doc.git"
   },
   "keywords": [
-    "Docsify",
+    "Vuepress",
     "Typescript",
     "documentation",
     "API"
@@ -20,9 +20,9 @@
   "author": "Romakita",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Romakita/docsify-ts-api/issues"
+    "url": "https://github.com/TypeProject/ts-doc/issues"
   },
-  "homepage": "https://github.com/Romakita/docsify-ts-api#readme",
+  "homepage": "https://github.com/TypeProject/ts-doc#readme",
   "files": [
     "bin/tsdoc.js",
     "bin",
