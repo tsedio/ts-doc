@@ -8,5 +8,6 @@ buildApi({
   apiDir: `${projectRoot}/docs/api`,
   docsDir: `${projectRoot}/docs`,
   srcDir: `${projectRoot}/src`,
-  libDir: `${projectRoot}/lib`
+  libDir: `${projectRoot}/lib`,
+  jsonOutputDir: `${projectRoot}/docs/api`
 });
