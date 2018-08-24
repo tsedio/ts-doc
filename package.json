@@ -1,15 +1,17 @@
 {
   "name": "@typedproject/ts-doc",
-  "version": "3.0.0",
+  "version": "0.0.0-development",
   "description": "Generate documentation in markdown for TypeScript API",
   "main": "index.js",
   "bin": "bin/tsdoc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/TypeProject/ts-doc.git"
+    "url": "https://github.com/TypedProject/ts-doc.git"
   },
   "keywords": [
     "Vuepress",
@@ -20,9 +22,9 @@
   "author": "Romakita",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TypeProject/ts-doc/issues"
+    "url": "https://github.com/TypedProject/ts-doc/issues"
   },
-  "homepage": "https://github.com/TypeProject/ts-doc#readme",
+  "homepage": "https://github.com/TypedProject/ts-doc#readme",
   "files": [
     "bin/tsdoc.js",
     "bin",
@@ -42,5 +44,9 @@
     "glob": "^7.1.2",
     "read-pkg-up": "^3.0.0",
     "ts-log-debug": "^4.0.2"
+  },
+  "devDependencies": {
+    "semantic-release": "^15.9.9",
+    "travis-deploy-once": "^5.0.2"
   }
 }
