@@ -1,6 +1,4 @@
 <!-- Params -->
-::: v-pre
 Param | Type | Description
 ---|---|---
 <% params.forEach(param => { %> <%- param.paramKey %>|<code><%- param.type.replace(/</gi, '&lt;').replace(/>/gi, '&gt;') %></code>|<%- param.description %> <% }) %>
-:::

@@ -1,9 +1,13 @@
+::: v-pre
+
 <div class="method-overview"><%- components.codeHighlight(member.overview.trim(), undefined, deprecated) %></div>
 <% if (hasParams) { %>
 <%- components.symbolParams(member.params, member.overview) %>
 <% } %>
 <% if (member.description) { %>
-::: v-pre
+
 <%- member.description %>
-:::
+
 <% } %>
+
+:::

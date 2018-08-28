@@ -4,13 +4,17 @@
 ## Constructor
 
 <% if (hasConstructorOverview) { %>
+::: v-pre
+
 <%- components.codeHighlight(construct.overview) %>
 <% } %>
 <% if (construct.description) { %>
-::: v-pre
+
 <%- construct.description %>
-:::
 <% } %>
+
+:::
+
 <% } %>
 <% if (members.length) { %>
 ## Members
