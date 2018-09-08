@@ -1,18 +1,17 @@
 'use strict';
 const { context } = require('../context');
-const { SymbolParser } = require('./SymbolParser');
+const { DocSymbolParser } = require('./DocSymbolParser');
 
 const {
   stripsComments,
   stripsTags
 } = require('../utils/strips');
 
-class Parser {
+class DocParser {
 
   constructor(docFile) {
     this.docFile = docFile;
     this.contents = docFile.contents;
-    this.symbols = new Map();
   }
 
   /**
@@ -43,8 +42,6 @@ class Parser {
       .split('\n')
       .map((line, index, map) => this.parseLine(line, index, map))
       .join('\n');
-
-    // $log.debug(this.symbols);
 
     return this;
   }
@@ -107,7 +104,7 @@ class Parser {
     if (this.tabLevel === 0) {
       if (line.match(/{$/)) {
         if (line.indexOf('function') === -1) {
-          const symbolParser = new SymbolParser(line, this.currentComment.join('\n'), this.contents);
+          const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n'), this.contents);
           symbolParser.parse();
           this.currentComment = [];
           this.currentSymbol = symbolParser.symbol;
@@ -124,7 +121,7 @@ class Parser {
     if (line.match(/^export /) && this.currentSymbol === undefined) {
 
       if (line.match(/;$/)) {
-        const symbolParser = new SymbolParser(line, this.currentComment.join('\n'), this.contents);
+        const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n'), this.contents);
         symbolParser.parse();
         symbolParser.symbol.overview = line.replace(/^export /, '');
         this.setSymbol(symbolParser.symbol);
@@ -139,7 +136,7 @@ class Parser {
         }
         return otherExportFound <= 0;
       });
-      const symbolParser = new SymbolParser(line, this.currentComment.join('\n'), this.contents);
+      const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n'), this.contents);
       symbolParser.parse();
       symbolParser.symbol.overview = overview.join('\n').replace(/^export /, '');
       this.setSymbol(symbolParser.symbol);
@@ -150,13 +147,13 @@ class Parser {
   }
 
   setSymbol(symbol) {
-    if (symbol.symbolName === '') {
+    if (symbol.symbolName === '' || symbol.symbolName === 'let') {
       return;
     }
 
-    symbol.file = this.docFile.file;
-    this.symbols.set(symbol.symbolName, context.symbols.push(symbol));
+    symbol.setDocFile(this.docFile);
+    this.docFile.symbols.set(symbol.symbolName, context.symbols.push(symbol));
   }
 }
 
-module.exports.Parser = Parser;
+module.exports.DocParser = DocParser;

@@ -29,11 +29,75 @@ const reverseKeys = (obj) => {
 };
 
 module.exports = {
+  settings: {},
   symbolTypes: reverseKeys(SYMBOL_TYPES),
   symbolStatus: SYMBOL_STATUS,
   status: SYMBOL_STATUS,
   symbols: require('./symbols'),
+  /**
+   *
+   */
   components: {},
+
+  get rootDir() {
+    return this.settings.rootDir;
+  },
+
+  get packagesDir() {
+    return this.settings.packagesDir;
+  },
+
+  get scanPatterns() {
+    return this.settings.scanPatterns.map((s) => {
+      return s.replace('<rootDir>', this.rootDir);
+    });
+  },
+  get outputDir() {
+    return this.settings.outputDir.replace('<rootDir>', this.rootDir);
+  },
+
+  get jsonOutputDir() {
+    return this.settings.jsonOutputDir.replace('<rootDir>', this.rootDir);
+  },
+
+  get baseUrl() {
+    return this.settings.baseUrl;
+  },
+
+  get scope() {
+    return this.settings.scope;
+  },
+
+  get modules() {
+    return this.settings.modules;
+  },
+
+  get host() {
+    return `${this.github}/blob/v${this.version}/`;
+  },
+
+  srcResolver(dtsFile) {
+    return this.settings.srcResolver ? this.settings.srcResolver(dtsFile
+    ) : dtsFile.replace('lib/', 'src/');
+  },
+
+  outputResolver(file) {
+    return this.settings.outputFileResolver ? this.settings.outputFileResolver(file
+    ) : file.replace('src/', '').replace('lib/', '');
+  },
+
+  // packageResolver(dtsFile) {
+  //  return dtsFile.replace('packages/', '');
+  // },
+
+  // onWriteFilePath(file) {
+  //  return file.replace('lib/', '');
+  // },
+
+  set(obj) {
+    this.settings = obj;
+  },
+
   readPkg() {
     return readPkgUp()
       .then((result) => {
@@ -41,14 +105,17 @@ module.exports = {
         return result.pkg;
       });
   },
+
   importPkg(pkg) {
     const { name, repository, version, tsdoc } = pkg;
 
     this.github = repository.url.replace('.git', '').replace('git+', '');
     this.version = version;
     this.projectName = name;
-    this.host = `${this.github}/blob/v${version}/src/`;
-    this.modules = tsdoc.modules;
-    this.scope = tsdoc.scope;
+
+    if (tsdoc) {
+      this.settings.modules = tsdoc.modules;
+      this.settings.scope = tsdoc.scope;
+    }
   }
 };

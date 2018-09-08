@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
-const { buildApi } = require("../lib/tasks/build-api");
-const projectRoot = process.cwd();
+const { buildApi } = require('../src/tasks/build-api');
 
 buildApi({
-  root: projectRoot,
-  apiDir: `${projectRoot}/docs/api`,
-  docsDir: `${projectRoot}/docs`,
-  srcDir: `${projectRoot}/src`,
-  libDir: `${projectRoot}/lib`,
-  jsonOutputDir: `${projectRoot}/docs/api`
+  rootDir: process.cwd(),
+  packagesDir: 'packages/',
+  scanPatterns: [
+    '<rootDir>/packages/**/lib/**/*.d.ts',
+    '!node_modules'
+  ],
+  outputDir: '<rootDir>/docs/api',
+  baseUrl: '/api',
+  jsonOutputDir: '<rootDir>/docs/.vuepress/public',
+  modules: {}
 });

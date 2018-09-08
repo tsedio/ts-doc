@@ -1,4 +1,4 @@
-const { bindSymbols } = require("../../lib/parsers/highlight");
+const { bindSymbols } = require("../../src/highlight");
 module.exports = {
   name: "symbolParams",
   trim: false,

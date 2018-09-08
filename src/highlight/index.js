@@ -18,7 +18,7 @@ const replacement = (match, $1, index, content) => {
 
     $1 = $1.replace(/</gi, '&lt;').replace(/>/gi, '&gt;');
 
-    return `<a href="${symbol.apiPath()}.html"><span class="token">${$1}</span></a>`;
+    return `<a href="${symbol.url}"><span class="token">${$1}</span></a>`;
   }
 
   return match;

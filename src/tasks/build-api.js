@@ -13,26 +13,22 @@ module.exports = {
   /**
    *
    */
-  buildApi(config, pkg) {
-    context.root = config.root;
-    context.apiDir = config.apiDir;
-    context.docsDir = config.docsDir;
-    context.libDir = config.libDir;
-    context.srcDir = config.srcDir;
-    context.jsonOutputDir = config.jsonOutputDir;
+  buildApi(config) {
+
+    context.set(config);
 
     return Promise.resolve()
-      .then(() => pkg ? context.importPkg(pkg) : context.readPkg())
+      .then(() => context.readPkg())
       .then(() => scanComponents(options.components))
-      .then(() => scanFiles(context.libDir + '/**/*.ts'))
+      .then(() => scanFiles(context.scanPatterns))
       .then(() =>
-         context.symbols.forEach((symbol) => {
+        context.symbols.forEach((symbol) => {
           const content = context.components.page(symbol);
 
           return writeSymbol(symbol, content);
         })
       )
-      .then(() => writeTemplate(context.docsDir + '/**/*.{ejs,emd}'))
+      // .then(() => writeTemplate(context.docsDir + '/**/*.{ejs,emd}'))
       .then(() => writeJson())
       .then(() => logger('done'))
       .catch(err => console.error(err));

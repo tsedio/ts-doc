@@ -1,0 +1,21 @@
+{
+  "include": [
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "**/index.js"
+  ],
+  "reporter": [
+    "lcov",
+    "text-summary"
+  ],
+  "extension": [
+    ".js"
+  ],
+  "check-coverage": true,
+  "lines": 0,
+  "functions": 0,
+  "branches": 0,
+  "statements": 0,
+  "all": true
+}

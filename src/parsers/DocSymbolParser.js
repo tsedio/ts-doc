@@ -2,7 +2,7 @@ const { DocSymbol } = require('../models/DocSymbol');
 const { descriptionParser } = require('./description-parser');
 const { context } = require('../context');
 
-class SymbolParser {
+class DocSymbolParser {
   constructor(line, description, contents) {
     this.line = line;
     this.contents = contents;
@@ -10,10 +10,9 @@ class SymbolParser {
     description = descriptionParser(description);
 
     this.description = description;
-    this.symbol = new DocSymbol(line, contents);
+    this.symbol = new DocSymbol();
     this.symbol.description = description.content;
     this.symbol.labels = this.symbol.labels.concat(description.labels);
-
   }
 
   parse() {
@@ -118,4 +117,4 @@ class SymbolParser {
   }
 }
 
-module.exports.SymbolParser = SymbolParser;
+module.exports.DocSymbolParser = DocSymbolParser;

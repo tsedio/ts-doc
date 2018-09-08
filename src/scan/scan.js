@@ -1,6 +1,6 @@
 'use strict';
 
-const glob = require('glob');
+const globby = require('globby');
 const path = require('path');
 const chalk = require('chalk');
 const logger = require('fancy-log');
@@ -8,7 +8,7 @@ const fsExtra = require('fs-extra');
 const { render } = require('../render/render');
 const { context } = require('../context');
 const { trim } = require('../utils/trim');
-const { Parser } = require('../parsers/Parser');
+const { DocParser } = require('../parsers/DocParser');
 const { DocFile } = require('../models/DocFile');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
   scanComponents(directory) {
     logger('Scan components \'' + chalk.cyan(directory) + '\'');
 
-    const files = glob.sync(path.join(directory, '**/*.ejs'));
+    const files = globby.sync(path.join(directory, '**/*.ejs'));
 
     files.forEach((file) => {
       const component = require(file.replace('.ejs', '.js'));
@@ -43,26 +43,24 @@ module.exports = {
    */
   scanTemplate(templatePattern) {
     logger('Scan template directory \'' + chalk.cyan(templatePattern) + '\'');
-    let files = glob.sync(templatePattern);
+    let files = globby.sync(templatePattern);
 
     return files.filter((file) => file.indexOf('/_build') === -1);
   },
   /**
    *
-   * @param pattern
+   * @param patterns
    */
-  scanFiles(pattern) {
-    logger('Scan folders \'' + chalk.cyan(pattern) + '\'');
-    let files = glob.sync(pattern);
+  scanFiles(patterns) {
+    logger('Scan folders \'' + chalk.cyan(JSON.stringify(patterns)) + '\'');
+    let files = globby.sync(patterns);
 
     return files
-      .filter((file) => !file.match(/lib\/index.ts/))
       .map(file => new DocFile(file))
       .map(docFile => {
 
         try {
-          const parser = new Parser(docFile).parse();
-          docFile.symbols = parser.symbols;
+          new DocParser(docFile).parse();
 
           docFile.symbols.forEach((symbol) => {
             if (symbol.symbolName.trim() === '') {
@@ -75,7 +73,7 @@ module.exports = {
           return docFile;
 
         } catch (er) {
-          logger.error(chalk.red(er));
+          logger.error(chalk.red(er), er.stack);
         }
 
       });

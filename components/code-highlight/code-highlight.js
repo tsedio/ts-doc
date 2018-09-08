@@ -1,4 +1,4 @@
-const { highlight } = require("../../lib/parsers/highlight");
+const { highlight } = require("../../src/highlight");
 
 module.exports = {
   name: "codeHighlight",
