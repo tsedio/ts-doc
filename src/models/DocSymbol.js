@@ -170,13 +170,13 @@ class DocSymbol {
   setDocFile(docFile) {
     this.docFile = docFile;
 
-    if (this.path.match('decorators')) {
+    if (this.relativePath.match('decorators')) {
       this.symbolType = 'decorator';
       this.symbolLabel = context.symbolTypes['decorator'].label;
       this.symbolCode = context.symbolTypes['decorator'].code;
     }
 
-    if (this.path.match('services')) {
+    if (this.relativePath.match('services')) {
       this.symbolType = 'service';
       this.symbolLabel = context.symbolTypes['service'].label;
       this.symbolCode = context.symbolTypes['service'].code;
