@@ -101,8 +101,8 @@ module.exports = {
   readPkg() {
     return readPkgUp()
       .then((result) => {
-        module.exports.importPkg(result.pkg);
-        return result.pkg;
+        module.exports.importPkg(result. packageJson);
+        return result.packageJson;
       });
   },
 
