@@ -1,81 +1,85 @@
-'use strict';
+'use strict'
 
-const globby = require('globby');
-const path = require('path');
-const chalk = require('chalk');
-const logger = require('fancy-log');
-const fsExtra = require('fs-extra');
-const { render } = require('../render/render');
-const { context } = require('../context');
-const { trim } = require('../utils/trim');
-const { DocParser } = require('../parsers/DocParser');
-const { DocFile } = require('../models/DocFile');
+const globby = require('globby')
+const path = require('path')
+const chalk = require('chalk')
+const logger = require('fancy-log')
+const fsExtra = require('fs-extra')
+const { render } = require('../render/render')
+const { context } = require('../context')
+const { trim } = require('../utils/trim')
+const { DocParser } = require('../parsers/DocParser')
+const { DocFile } = require('../models/DocFile')
 
 module.exports = {
   /**
    *
    * @param directory
    */
-  scanComponents(directory) {
-    logger('Scan components \'' + chalk.cyan(directory) + '\'');
+  scanComponents (directory) {
+    logger('Scan components \'' + chalk.cyan(directory) + '\'')
 
-    const files = globby.sync(path.join(directory, '**/*.ejs'));
+    const files = globby.sync(path.join(directory, '**/*.ejs'))
 
     files.forEach((file) => {
-      const component = require(file.replace('.ejs', '.js'));
+      const component = require(file.replace('.ejs', '.js'))
 
       context.components[component.name] = (...args) => {
-        const content = render(file, component.method(...args));
+        const content = render(file, component.method(...args))
 
         if (component.trim) {
-          return trim(content);
+          return trim(content)
         }
-        return '\n' + content + '\n';
-      };
+        return '\n' + content + '\n'
+      }
 
-      logger('Import component \'' + chalk.cyan(path.basename(file)) + '\'');
-    });
+      logger('Import component \'' + chalk.cyan(path.basename(file)) + '\'')
+    })
 
-    return files;
+    return files
   },
   /**
    *
    */
-  scanTemplate(templatePattern) {
-    logger('Scan template directory \'' + chalk.cyan(templatePattern) + '\'');
-    let files = globby.sync(templatePattern);
+  scanTemplate (templatePattern) {
+    logger('Scan template directory \'' + chalk.cyan(templatePattern) + '\'')
+    let files = globby.sync(templatePattern)
 
-    return files.filter((file) => file.indexOf('/_build') === -1);
+    return files.filter((file) => file.indexOf('/_build') === -1)
   },
   /**
    *
    * @param patterns
    */
-  scanFiles(patterns) {
-    logger('Scan folders \'' + chalk.cyan(JSON.stringify(patterns)) + '\'');
-    let files = globby.sync(patterns);
+  scanFiles (patterns) {
+    logger('Scan folders \'' + chalk.cyan(JSON.stringify(patterns)) + '\'')
 
-    return files
+    let symbols = 0
+    let files = globby.sync(patterns)
+    const docFiles = files
       .map(file => new DocFile(file))
       .map(docFile => {
-
         try {
-          new DocParser(docFile).parse();
+          new DocParser(docFile).parse()
 
           docFile.symbols.forEach((symbol) => {
+            // console.log('symbol', symbol)
             if (symbol.symbolName.trim() === '') {
-              return;
+              return
             }
-            logger('Scanned symbol \'' + chalk.cyan(symbol.symbolName) + '\'');
-            symbol.setDocFile(docFile);
-          });
 
-          return docFile;
+            logger('Scanned symbol \'' + chalk.cyan(symbol.symbolName) + '\'')
+            symbol.setDocFile(docFile)
+            symbols++
+          })
+
+          return docFile
 
         } catch (er) {
-          logger.error(chalk.red(er), er.stack);
+          logger.error(chalk.red(er), er.stack)
         }
+      })
 
-      });
+    logger(chalk.green(symbols) + ' scanned symbols')
   }
-};
+}
