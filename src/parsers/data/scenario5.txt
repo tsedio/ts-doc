@@ -1,0 +1,18 @@
+import { Type } from "@tsed/core";
+import { JsonSchemaObject } from "../../domain/JsonSchema";
+import { JsonHeader, JsonHeaders } from "../../interfaces/JsonOpenSpec";
+export interface ReturnsChainedDecorators extends MethodDecorator {
+
+    /**
+     * Add header.
+     * @param key
+     * @param value
+     */
+    Header(key: string, value: number | string | (JsonHeader & {
+        value?: string | number;
+    })): this;
+    /**
+     * Add headers
+     */
+    Headers(headers: JsonHeaders): this;
+}

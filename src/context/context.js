@@ -1,4 +1,5 @@
-const readPkgUp = require('read-pkg-up');
+const readPkgUp = require('read-pkg-up')
+const logger = require('fancy-log')
 
 const SYMBOL_TYPES = {
   '@': { value: 'decorator', label: 'Decorator' },
@@ -9,7 +10,7 @@ const SYMBOL_TYPES = {
   'K': { value: 'const', label: 'Constant' },
   'E': { value: 'enum', label: 'Enum' },
   'F': { value: 'function', label: 'Function' }
-};
+}
 
 const SYMBOL_STATUS = {
   'S': { value: 'stable', label: 'Stable' },
@@ -17,16 +18,16 @@ const SYMBOL_STATUS = {
   'E': { value: 'experimental', label: 'Experimental' },
   'P': { value: 'private', label: 'Private' },
   'O': { value: 'public', label: 'Public' }
-};
+}
 
 const reverseKeys = (obj) => {
   Object.keys(obj).forEach((key) => {
-    obj[key].code = key;
-    obj[obj[key].value] = obj[key];
-  });
+    obj[key].code = key
+    obj[obj[key].value] = obj[key]
+  })
 
-  return obj;
-};
+  return obj
+}
 
 module.exports = {
   settings: {},
@@ -39,51 +40,53 @@ module.exports = {
    */
   components: {},
 
-  get rootDir() {
-    return this.settings.rootDir;
+  logger: logger,
+
+  get rootDir () {
+    return this.settings.rootDir
   },
 
-  get packagesDir() {
-    return this.settings.packagesDir;
+  get packagesDir () {
+    return this.settings.packagesDir
   },
 
-  get scanPatterns() {
+  get scanPatterns () {
     return this.settings.scanPatterns.map((s) => {
-      return s.replace('<rootDir>', this.rootDir);
-    });
+      return s.replace('<rootDir>', this.rootDir)
+    })
   },
-  get outputDir() {
-    return this.settings.outputDir.replace('<rootDir>', this.rootDir);
-  },
-
-  get jsonOutputDir() {
-    return this.settings.jsonOutputDir.replace('<rootDir>', this.rootDir);
+  get outputDir () {
+    return this.settings.outputDir.replace('<rootDir>', this.rootDir)
   },
 
-  get baseUrl() {
-    return this.settings.baseUrl;
+  get jsonOutputDir () {
+    return this.settings.jsonOutputDir.replace('<rootDir>', this.rootDir)
   },
 
-  get scope() {
-    return this.settings.scope;
+  get baseUrl () {
+    return this.settings.baseUrl
   },
 
-  get modules() {
-    return this.settings.modules;
+  get scope () {
+    return this.settings.scope
   },
 
-  get host() {
-    return `${this.github}/blob/v${this.version}/`;
+  get modules () {
+    return this.settings.modules
   },
 
-  srcResolver(dtsFile) {
+  get host () {
+    return `${this.github}/blob/v${this.version}/`
+  },
+
+  srcResolver (dtsFile) {
     return this.settings.srcResolver ? this.settings.srcResolver(dtsFile
-    ) : dtsFile.replace('lib/', 'src/');
+    ) : dtsFile.replace('lib/', 'src/')
   },
 
-  outputResolver(file) {
+  outputResolver (file) {
     return this.settings.outputFileResolver ? this.settings.outputFileResolver(file
-    ) : file.replace('src/', '').replace('lib/', '');
+    ) : file.replace('src/', '').replace('lib/', '')
   },
 
   // packageResolver(dtsFile) {
@@ -94,28 +97,28 @@ module.exports = {
   //  return file.replace('lib/', '');
   // },
 
-  set(obj) {
-    this.settings = obj;
+  set (obj) {
+    this.settings = obj
   },
 
-  readPkg() {
+  readPkg () {
     return readPkgUp()
       .then((result) => {
-        module.exports.importPkg(result. packageJson);
-        return result.packageJson;
-      });
+        module.exports.importPkg(result.packageJson)
+        return result.packageJson
+      })
   },
 
-  importPkg(pkg) {
-    const { name, repository, version, tsdoc } = pkg;
+  importPkg (pkg) {
+    const { name, repository, version, tsdoc } = pkg
 
-    this.github = repository.url.replace('.git', '').replace('git+', '');
-    this.version = version;
-    this.projectName = name;
+    this.github = repository.url.replace('.git', '').replace('git+', '')
+    this.version = version
+    this.projectName = name
 
     if (tsdoc) {
-      this.settings.modules = tsdoc.modules;
-      this.settings.scope = tsdoc.scope;
+      this.settings.modules = tsdoc.modules
+      this.settings.scope = tsdoc.scope
     }
   }
-};
+}

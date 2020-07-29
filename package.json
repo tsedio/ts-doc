@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "bin": "bin/tsdoc.js",
   "scripts": {
-    "test": "npm run lint && nyc --reporter=html --reporter=text _mocha src/**/*.spec.js --recursive",
+    "test": "npm run lint && nyc --reporter=html --reporter=text _mocha {src,test}/**/*.spec.js --recursive",
     "lint": "echo 0",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once"

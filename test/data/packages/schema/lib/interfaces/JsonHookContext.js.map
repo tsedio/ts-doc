@@ -1,0 +1,1 @@
+{"version":3,"file":"JsonHookContext.js","sourceRoot":"","sources":["../../src/interfaces/JsonHookContext.ts"],"names":[],"mappings":"","sourcesContent":["export interface JsonHookContext {\n  /**\n   * The current instance used by serializer function\n   */\n  self: any;\n\n  [key: string]: any;\n}\n"]}

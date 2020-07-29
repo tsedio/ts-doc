@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/interfaces/index.ts"],"names":[],"mappings":"","sourcesContent":["export * from \"./JsonSchemaOptions\";\nexport * from \"./JsonOpenSpec\";\nexport * from \"./IgnoreCallback\";\nexport * from \"./JsonHookContext\";\n"]}

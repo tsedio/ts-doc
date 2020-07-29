@@ -1,0 +1,1 @@
+{"version":3,"file":"IgnoreCallback.js","sourceRoot":"","sources":["../../src/interfaces/IgnoreCallback.ts"],"names":[],"mappings":"","sourcesContent":["import {JsonHookContext} from \"./JsonHookContext\";\n\nexport interface IgnoreCallback {\n  (value: boolean, ctx: JsonHookContext): boolean;\n}\n"]}

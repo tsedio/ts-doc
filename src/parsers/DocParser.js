@@ -1,21 +1,13 @@
 'use strict'
 const { context } = require('../context')
 const { DocSymbolParser } = require('./DocSymbolParser')
+const { sumBracket } = require('./sum-bracket')
 
 const {
-  stripsComments,
   stripsTags
 } = require('../utils/strips')
 
 const EXPORT_PATTERN = /^export /
-
-function isClosedBracket (line) {
-  return line.trim().match(/}$|\};$/)
-}
-
-function isOpenedBracket (line) {
-  return line.trim().match(/{$/)
-}
 
 function isOpenedComment (line) {
   return line.trim() === '/**'
@@ -33,24 +25,40 @@ function isNotFunctionSymbol (line) {
   return line.match(/{$/) && line.indexOf('function') === -1
 }
 
+function isExported (line) {
+  return line.trim().match(/export \* from/)
+}
+
 class DocParser {
-  constructor (docFile) {
-    this.docFile = docFile
-    this.contents = docFile.contents
+  constructor (contents) {
+    this.symbols = new Map()
+    this.contents = contents
   }
 
-  /**
-   *
-   * @param str
-   * @returns {string}
-   */
-  overview (str = '') {
-    return stripsTags(stripsComments(str))
-      .split('\n')
-      .filter(o => !!o.trim())
-      .join('\n')
-      .trim()
+  static parse (docFile) {
+    const { symbols } = new DocParser(docFile.contents).parse()
+
+    symbols.forEach((symbol) => {
+      symbol.setDocFile(docFile)
+      symbol = context.symbols.push(symbol)
+      docFile.symbols.set(symbol.symbolName, symbol)
+    })
+
+    return docFile.symbols
   }
+
+  // /**
+  //  *
+  //  * @param str
+  //  * @returns {string}
+  //  */
+  // overview (str = '') {
+  //   return stripsTags(stripsComments(str))
+  //     .split('\n')
+  //     .filter(o => !!o.trim())
+  //     .join('\n')
+  //     .trim()
+  // }
 
   /**
    *
@@ -82,7 +90,7 @@ class DocParser {
       return
     }
 
-    if (line.trim().match(/export \* from/)) {
+    if (isExported(line)) {
       return
     }
 
@@ -104,71 +112,88 @@ class DocParser {
       return
     }
 
-    if (isOpenedBracket(line)) {
-      this.tabLevel--
-    }
+    this.tabLevel += sumBracket(line)
 
-    if (line.match(/}$/) && this.tabLevel === 0 && this.currentSymbol) {
-      this.currentSymbol.overview.push(line)
-      this.currentSymbol.overview = this.currentSymbol.overview.join('\n')
-      this.setSymbol(this.currentSymbol)
-      this.currentSymbol = undefined
+    if (this.tabLevel === 0 && this.currentSymbol) {
+      this.endSymbol(index)
     }
 
     if (this.tabLevel >= 1 && this.currentSymbol) {
-      this.currentSymbol.appendMember(this.tabLevel, line, this.currentComment.join('\n'))
-      this.currentComment = []
-      this.currentSymbol.overview.push(line.replace(EXPORT_PATTERN, ''))
-    }
+      const currentLvl = this.tabLevel - sumBracket(line);
 
-    if (this.tabLevel === 0 && isNotFunctionSymbol(line)) {
-      const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n'), this.contents)
-      symbolParser.parse()
-      this.currentComment = []
-
-      this.currentSymbol = symbolParser.symbol
-      this.currentSymbol.overview = [line.replace(EXPORT_PATTERN, '')]
-    }
-
-    if (isClosedBracket(line)) {
-      this.tabLevel++
-    }
-
-    if (isExportedSymbol(line) && this.currentSymbol === undefined) {
-      if (line.match(/;$/)) {
-        const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n'), this.contents)
-        symbolParser.parse()
-        symbolParser.symbol.overview = line.replace(EXPORT_PATTERN, '')
-        this.setSymbol(symbolParser.symbol)
-        return
+      if (currentLvl === 1) {
+        this.currentSymbol.appendMember(line, this.currentComment.join('\n'))
+      } else {
+        this.currentSymbol.addLineToMember(line)
       }
 
-      const nextContent = map.slice(index, map.length)
-      let otherExportFound = -1
-      const overview = nextContent.filter((l) => {
-        if (isExportedSymbol(l)) {
-          otherExportFound++
-        }
-        return otherExportFound <= 0
-      })
-      const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n'), this.contents)
-      symbolParser.parse()
-      symbolParser.symbol.overview = overview.join('\n').replace(EXPORT_PATTERN, '')
-      this.setSymbol(symbolParser.symbol)
+      this.currentComment = []
+      return
+    }
+
+
+    if (this.isEligibleSymbol(line)) {
+      this.createSymbol(line, index, map)
+
+      if (line.match(/;$/)) {
+        this.endSymbol(index)
+      }
+
       return
     }
 
     return line
   }
 
+  isEligibleSymbol (line) {
+    return (this.tabLevel === 0 && isNotFunctionSymbol(line)) || (isExportedSymbol(line) && this.currentSymbol === undefined)
+  }
+
+  createSymbol (line, index, map) {
+    const symbolParser = new DocSymbolParser(line, this.currentComment.join('\n').trim())
+    let symbol = symbolParser.parse()
+    symbol.rawContent = map
+
+    if (this.symbols.has(symbolParser.symbol.symbolName)) {
+      symbol = this.symbols.get(symbolParser.symbol.symbolName)
+    } else {
+      symbol.startLine = index
+    }
+
+    symbol.endLine = index
+
+    this.setSymbol(symbol, map)
+
+    this.currentComment = []
+    this.currentSymbol = symbol
+
+    return symbol
+  }
+
+  endSymbol (index) {
+    this.currentSymbol.endLine = index
+    this.setSymbol(this.currentSymbol)
+    this.currentSymbol = undefined
+  }
 
   setSymbol (symbol) {
     if (symbol.symbolName === '' || symbol.symbolName === 'let') {
       return
     }
 
-    symbol.setDocFile(this.docFile)
-    this.docFile.symbols.set(symbol.symbolName, context.symbols.push(symbol))
+    if (symbol.labels.find(({ key }) => key === 'ignore')) {
+      return
+    }
+
+    this.symbols.set(symbol.symbolName, symbol)
+    this.buildSymbolOverview(symbol)
+  }
+
+  buildSymbolOverview (symbol) {
+    symbol.overview = symbol.rawContent.slice(symbol.startLine, symbol.endLine + 1)
+      .join('\n')
+      .trim()
+      .replace(EXPORT_PATTERN, '')
   }
 }
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"JsonSchemaOptions.js","sourceRoot":"","sources":["../../src/interfaces/JsonSchemaOptions.ts"],"names":[],"mappings":"","sourcesContent":["import {SpecTypes} from \"../domain/SpecTypes\";\n\nexport interface JsonSchemaOptions {\n  useAlias?: boolean;\n  schemas?: any;\n  root?: any;\n  spec?: SpecTypes;\n\n  [key: string]: any;\n}\n"]}

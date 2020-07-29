@@ -3,7 +3,7 @@ module.exports = {
   trim: true,
   method(symbol) {
 
-    const ignoreLabels = ["type", "returns", "decorator", "param"];
+    const ignoreLabels = ["type", "returns", "decorator", "param", "constructor"];
     const id = symbol.symbolName.replace(/ /gi, "").toLowerCase();
     let isPrivateAdded;
 

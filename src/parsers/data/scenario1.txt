@@ -1,0 +1,15 @@
+/**
+ * Interface comment
+ */
+export interface ReturnsChainedDecorators extends MethodDecorator {
+    /**
+     * Set a Content-Type for the current response
+     */
+    ContentType(value: string): this;
+}
+/**
+ * Add responses documentation for a specific status code.
+ *
+ * @decorator
+ */
+export declare function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators;

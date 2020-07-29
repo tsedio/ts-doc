@@ -4,7 +4,6 @@ const globby = require('globby')
 const path = require('path')
 const chalk = require('chalk')
 const logger = require('fancy-log')
-const fsExtra = require('fs-extra')
 const { render } = require('../render/render')
 const { context } = require('../context')
 const { trim } = require('../utils/trim')
@@ -17,7 +16,7 @@ module.exports = {
    * @param directory
    */
   scanComponents (directory) {
-    logger('Scan components \'' + chalk.cyan(directory) + '\'')
+    context.logger('Scan components \'' + chalk.cyan(directory) + '\'')
 
     const files = globby.sync(path.join(directory, '**/*.ejs'))
 
@@ -33,7 +32,7 @@ module.exports = {
         return '\n' + content + '\n'
       }
 
-      logger('Import component \'' + chalk.cyan(path.basename(file)) + '\'')
+      context.logger('Import component \'' + chalk.cyan(path.basename(file)) + '\'')
     })
 
     return files
@@ -42,7 +41,7 @@ module.exports = {
    *
    */
   scanTemplate (templatePattern) {
-    logger('Scan template directory \'' + chalk.cyan(templatePattern) + '\'')
+    context.logger('Scan template directory \'' + chalk.cyan(templatePattern) + '\'')
     let files = globby.sync(templatePattern)
 
     return files.filter((file) => file.indexOf('/_build') === -1)
@@ -52,34 +51,25 @@ module.exports = {
    * @param patterns
    */
   scanFiles (patterns) {
-    logger('Scan folders \'' + chalk.cyan(JSON.stringify(patterns)) + '\'')
+    context.logger('Scan folders \'' + chalk.cyan(JSON.stringify(patterns)) + '\'')
 
-    let symbols = 0
-    let files = globby.sync(patterns)
-    const docFiles = files
-      .map(file => new DocFile(file))
-      .map(docFile => {
+    let symbolsSize = 0
+
+    globby
+      .sync(patterns)
+      .forEach(file => {
         try {
-          new DocParser(docFile).parse()
-
-          docFile.symbols.forEach((symbol) => {
-            // console.log('symbol', symbol)
-            if (symbol.symbolName.trim() === '') {
-              return
-            }
-
-            logger('Scanned symbol \'' + chalk.cyan(symbol.symbolName) + '\'')
-            symbol.setDocFile(docFile)
-            symbols++
-          })
-
-          return docFile
-
+          DocParser
+            .parse(new DocFile(file))
+            .forEach((symbol) => {
+              context.logger(`Scanned symbol '${chalk.cyan(symbol.symbolName)}'`)
+              symbolsSize++
+            })
         } catch (er) {
-          logger.error(chalk.red(er), er.stack)
+          context.logger.error(chalk.red(er), er.stack)
         }
       })
 
-    logger(chalk.green(symbols) + ' scanned symbols')
+    context.logger(`${chalk.green(symbolsSize)} scanned symbols`)
   }
 }

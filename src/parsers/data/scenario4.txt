@@ -1,0 +1,120 @@
+import { Type } from "@tsed/core";
+import { JsonEntityStore, JsonEntityStoreOptions, JsonOperation, JsonResponse } from "@tsed/schema";
+import { ParamMetadata } from "./ParamMetadata";
+export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
+    beforeMiddlewares?: Function[];
+    middlewares?: Function[];
+    afterMiddlewares?: Function[];
+}
+/**
+ * EndpointMetadata contains metadata about a controller and his method.
+ * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
+ * EndpointMetadata convert this metadata to an array which contain arguments to call an Express method.
+ *
+ * Example :
+ * ```typescript
+ * @Controller("/my-path")
+ * provide MyClass {
+ *   @Get("/")
+ *   @Authenticated()
+ *   public myMethod(){}
+ * }
+ * ```
+ *
+ */
+export declare class EndpointMetadata extends JsonEntityStore implements EndpointConstructorOptions {
+    beforeMiddlewares: any[];
+    middlewares: any[];
+    afterMiddlewares: any[];
+    statusCode: number;
+    constructor(options: EndpointConstructorOptions);
+    /**
+     * @deprecated Use EndpointMetadata.operationPaths instead of.
+     */
+    get pathsMethods(): import("@tsed/schema").JsonMethodPath[];
+    get targetName(): string;
+    get params(): ParamMetadata[];
+    get response(): JsonResponse | undefined;
+    /**
+     * Return the JsonOperation
+     */
+    get operation(): JsonOperation;
+    get operationPaths(): Map<string, import("@tsed/schema").JsonMethodPath>;
+    get responses(): Map<string, JsonResponse>;
+    /**
+     * Get all endpoints from a given class and his parents.
+     * @param {Type<any>} target
+     * @returns {EndpointMetadata[]}
+     */
+    static getEndpoints(target: Type<any>): EndpointMetadata[];
+    /**
+     * Get an endpoint.
+     * @param target
+     * @param propertyKey
+     * @param descriptor
+     */
+    static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): EndpointMetadata;
+    /**
+     * Gets a value indicating whether the target object or its prototype chain has already method registered.
+     * @param target
+     * @param method
+     * @deprecated
+     */
+    static has(target: Type<any>, method: string | symbol): boolean;
+    /**
+     * Append mvc in the pool (before).
+     * @param target
+     * @param targetKey
+     * @param args
+     * @deprecated
+     */
+    static useBefore(target: Type<any>, targetKey: string | symbol, args: any[]): typeof EndpointMetadata;
+    /**
+     * Add middleware and configuration for the endpoint.
+     * @param target
+     * @param targetKey
+     * @param args
+     * @returns {Endpoint}
+     * @deprecated
+     */
+    static use(target: Type<any>, targetKey: string | symbol, args: any[]): typeof EndpointMetadata;
+    static useAfter(target: Type<any>, targetKey: string | symbol, args: any[]): typeof EndpointMetadata;
+    addOperationPath(method: string, path: string | RegExp, options?: any): JsonOperation;
+    /**
+     * Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
+     *
+     * @param key
+     * @returns {any}
+     */
+    get<T = any>(key: any): T;
+    /**
+     * Change the type and the collection type from the status code.
+     * @param {string | number} code
+     * @deprecated Use endpoint.responses.get(code)
+     */
+    statusResponse(code: string | number): {};
+    /**
+     *
+     * @param args
+     * @returns {EndpointMetadata}
+     */
+    before(args: Function[]): this;
+    /**
+     *
+     * @param args
+     * @returns {EndpointMetadata}
+     */
+    after(args: Function[]): this;
+    /**
+     * Store all arguments collected via Annotation.
+     * @param args
+     */
+    use(args: Function[]): this;
+    /**
+     * Store all arguments collected via Annotation.
+     * @param args
+     * @deprecated
+     */
+    merge(args: any[]): this;
+    clone(): EndpointMetadata;
+}
