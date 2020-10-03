@@ -1,10 +1,6 @@
 import { IgnoreCallback } from "../../interfaces";
 /**
- * Disable serialization for this property when the Converters service will render the JSON object.
- *
- * ::: tip
- * This decorator is used by the Converters to serialize correctly your model.
- * :::
+ * Ignore the property when JsonMapper serialize the class to a Plain Object JavaScript.
  *
  * ::: warning
  * Swagger will not generate documentation for the ignored property.
@@ -55,12 +51,8 @@ import { IgnoreCallback } from "../../interfaces";
  * ```
  * @param cb Callback to know if the property must be ignored
  * @decorator
- * @ajv
- * @jsonMapper
+ * @validation
  * @swagger
  * @schema
- * @propertyDecorator
- * @paramDecorator
- * @model
  */
 export declare function Ignore(cb?: boolean | IgnoreCallback): (...args: any[]) => any;

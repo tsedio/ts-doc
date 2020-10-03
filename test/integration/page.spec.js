@@ -21,4 +21,24 @@ describe('Page', () => {
       expect(symbol.content).to.equal(getSnapshot(symbol))
     })
   })
+
+  describe('RequestContext example', () => {
+    it('should render a page', async () => {
+      const symbols = await compilePage(__dirname + '/data/*')
+      const symbol = symbols.get('RequestContext')
+
+      expect(symbol.symbolType).to.equal('class')
+      expect(symbol.content).to.equal(getSnapshot(symbol))
+    })
+  })
+
+  describe('Ignore example', () => {
+    it('should render a page', async () => {
+      const symbols = await compilePage(__dirname + '/data/*')
+      const symbol = symbols.get('Ignore')
+
+      expect(symbol.symbolType).to.equal('decorator')
+      expect(symbol.content).to.equal(getSnapshot(symbol))
+    })
+  })
 })
