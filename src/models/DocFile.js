@@ -1,6 +1,7 @@
 const { context } = require('../context/index');
 const path = require('path');
 const fs = require('fs');
+const normalizePath = require('normalize-path');
 const mapExported = new Map();
 
 class DocFile {
@@ -9,26 +10,27 @@ class DocFile {
    * @param file
    */
   constructor(file) {
-    this.file = file;
+    this.file = normalizePath(file);
     this.symbols = new Map();
     this.contents = fs.readFileSync(file).toString();
   }
 
   get path() {
-    return (this.file || '').replace('.d.ts', '.ts');
+    return normalizePath((this.file || '').replace('.d.ts', '.ts'));
   }
 
   get srcPath() {
-    return context.srcResolver(this.path);
+    return normalizePath(context.srcResolver(this.path));
   }
 
   get relativePackagePath() {
-    const p = path.join(context.rootDir, context.packagesDir);
-    return this.srcPath.replace(p, '');
+    const p = normalizePath(path.join(context.rootDir, context.packagesDir));
+
+    return normalizePath(this.srcPath.replace(p, ''));
   }
 
   get relativePath() {
-    return this.srcPath.replace(`${context.rootDir}/`, '');
+    return normalizePath(this.srcPath.replace(`${context.rootDir}/`, ''));
   }
 
   get module() {

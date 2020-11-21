@@ -1,4 +1,5 @@
 const path = require('path')
+const normalizePath = require('normalize-path');
 const { context } = require('../context/index')
 const { descriptionParser } = require('../parsers/description-parser.js')
 
@@ -104,7 +105,7 @@ class DocSymbol {
    * @returns {void | string | *}
    */
   get relativePath () {
-    return this.docFile.srcPath.replace(context.rootDir, '')
+    return normalizePath(this.docFile.srcPath.replace(context.rootDir, ''))
   }
 
   /**
@@ -112,11 +113,13 @@ class DocSymbol {
    * @returns {*}
    */
   get url () {
-    return context.outputResolver(path.join(
+    const url = [
       context.baseUrl,
-      path.dirname(this.docFile.relativePackagePath), //.replace(/\.ts$/, '')
+      normalizePath(path.dirname(this.docFile.relativePackagePath)), //.replace(/\.ts$/, '')
       `${this.symbolName}.html`
-    ))
+    ].join('/')
+
+    return context.outputResolver(url)
   }
 
   /**
@@ -124,11 +127,13 @@ class DocSymbol {
    * @returns {*}
    */
   get outputPath () {
-    return context.outputResolver(path.join(
+    const file = normalizePath(path.join(
       context.outputDir,
       path.dirname(this.docFile.relativePackagePath),
       `${this.symbolName}.md`
     ))
+
+    return context.outputResolver(file)
   }
 
   /**

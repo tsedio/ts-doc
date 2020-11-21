@@ -1,5 +1,6 @@
 const readPkgUp = require('read-pkg-up')
 const logger = require('fancy-log')
+const normalizePath = require('normalize-path');
 
 const SYMBOL_TYPES = {
   '@': { value: 'decorator', label: 'Decorator' },
@@ -43,11 +44,11 @@ module.exports = {
   logger: logger,
 
   get rootDir () {
-    return this.settings.rootDir
+    return normalizePath(this.settings.rootDir)
   },
 
   get packagesDir () {
-    return this.settings.packagesDir
+    return normalizePath(this.settings.packagesDir)
   },
 
   get scanPatterns () {
@@ -56,11 +57,11 @@ module.exports = {
     })
   },
   get outputDir () {
-    return this.settings.outputDir.replace('<rootDir>', this.rootDir)
+    return normalizePath(this.settings.outputDir.replace('<rootDir>', this.rootDir))
   },
 
   get jsonOutputDir () {
-    return this.settings.jsonOutputDir.replace('<rootDir>', this.rootDir)
+    return normalizePath(this.settings.jsonOutputDir.replace('<rootDir>', this.rootDir))
   },
 
   get baseUrl () {
@@ -80,22 +81,20 @@ module.exports = {
   },
 
   srcResolver (dtsFile) {
-    return this.settings.srcResolver ? this.settings.srcResolver(dtsFile
-    ) : dtsFile.replace('lib/', 'src/')
+    dtsFile = normalizePath(dtsFile)
+    dtsFile = normalizePath(this.settings.srcResolver ? this.settings.srcResolver(dtsFile
+    ) : dtsFile.replace('lib/', 'src/'))
+
+    return dtsFile
   },
 
   outputResolver (file) {
-    return this.settings.outputFileResolver ? this.settings.outputFileResolver(file
-    ) : file.replace('src/', '').replace('lib/', '')
+    file = normalizePath(file)
+    file = normalizePath(this.settings.outputFileResolver ? this.settings.outputFileResolver(file
+    ) : file.replace('src/', '').replace('lib/', ''))
+
+    return file
   },
-
-  // packageResolver(dtsFile) {
-  //  return dtsFile.replace('packages/', '');
-  // },
-
-  // onWriteFilePath(file) {
-  //  return file.replace('lib/', '');
-  // },
 
   set (obj) {
     this.settings = obj
