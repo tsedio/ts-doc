@@ -6,7 +6,6 @@ const { Sinon, expect } = require('../test/tools');
 
 describe('DocFile', () => {
   before(() => {
-
     context.set({
       rootDir: path.join(process.cwd()),
       packagesDir: 'packages/',
@@ -47,7 +46,7 @@ describe('DocFile', () => {
   });
 
   it('should return the relativePackagePath', () => {
-    expect(this.docFile.relativePackagePath).to.eq('common/di/src/file.ts');
+    expect(this.docFile.relativePackagePath).to.eq('/common/di/src/file.ts');
   });
 
   it('should return the relativePath', () => {

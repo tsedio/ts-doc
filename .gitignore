@@ -33,6 +33,8 @@ node_modules
 
 # Typings
 typings/
+/coverage
+.nyc_output
 
 .npmrc
 .vscode

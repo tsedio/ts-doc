@@ -4,9 +4,7 @@ const context = require('../context/context');
 const { expect } = require('../test/tools');
 
 describe('DocSymbol', () => {
-
   before(() => {
-
     context.github = 'https://github.com/repo';
     context.version = '1.0.0';
 
@@ -35,7 +33,7 @@ describe('DocSymbol', () => {
       file: path.join(process.cwd(), '/packages/common/di/lib/file.d.ts'),
       path: path.join(process.cwd(), '/packages/common/di/lib/file.ts'),
       srcPath: path.join(process.cwd(), '/packages/common/di/src/file.ts'),
-      relativePackagePath: 'common/di/src/file.ts',
+      relativePackagePath: '/common/di/src/file.ts',
       relativePath: 'packages/common/di/src/file.ts',
       module: {
         'importFrom': '@scope/common',
@@ -67,7 +65,7 @@ describe('DocSymbol', () => {
   });
 
   it('should return the relativePackagePath', () => {
-    expect(this.docSymbol.relativePackagePath).to.eq('common/di/src/file.ts');
+    expect(this.docSymbol.relativePackagePath).to.eq('/common/di/src/file.ts');
   });
 
   it('should return the module description', () => {
