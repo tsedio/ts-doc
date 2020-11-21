@@ -22,16 +22,10 @@
     "url": "https://github.com/TypedProject/ts-doc/issues"
   },
   "homepage": "https://github.com/TypedProject/ts-doc#readme",
-  "files": [
-    "bin/tsdoc.js",
-    "packages/ts-doc/bin",
-    "packages/ts-doc/src",
-    "packages/ts-doc/components"
-  ],
   "directories": {
-    "src": "src",
-    "components": "components",
-    "bin": "bin"
+    "src": "./src",
+    "components": "./components",
+    "bin": "./bin"
   },
   "dependencies": {
     "chalk": "3.0.0",
