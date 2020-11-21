@@ -7,8 +7,7 @@
   "scripts": {
     "test": "npm run lint && nyc --reporter=html --reporter=text _mocha {src,test}/**/*.spec.js --recursive",
     "lint": "echo 0",
-    "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once"
+    "release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -57,7 +56,6 @@
     "proxyquire": "2.1.3",
     "sinon": "7.5.0",
     "sinon-chai": "3.3.0",
-    "semantic-release": "15.13.30",
-    "travis-deploy-once": "5.0.11"
+    "semantic-release": "17.2.4"
   }
 }
