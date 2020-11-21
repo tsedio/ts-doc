@@ -51,3 +51,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn release
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packages
+          path: |
+            package.json
+            packages/*/package.json

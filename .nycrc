@@ -1,6 +1,6 @@
 {
   "include": [
-    "src/**/*.js"
+    "packages/*/src/**/*.js"
   ],
   "exclude": [
     "**/index.js"
@@ -16,6 +16,5 @@
   "lines": 0,
   "functions": 0,
   "branches": 0,
-  "statements": 0,
-  "all": true
+  "statements": 0
 }

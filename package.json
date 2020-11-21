@@ -1,13 +1,27 @@
 {
-  "name": "@typedproject/ts-doc",
-  "version": "0.0.0-development",
+  "name": "@typedproject/root",
+  "version": "4.0.10",
   "description": "Generate documentation in markdown for TypeScript API",
-  "main": "src/index.js",
-  "bin": "bin/tsdoc.js",
+  "main": "./src/index.js",
+  "bin": "./bin/tsdoc.js",
+  "private": true,
   "scripts": {
-    "test": "npm run lint && nyc --reporter=html --reporter=text _mocha {src,test}/**/*.spec.js --recursive",
-    "lint": "echo 0",
-    "release": "semantic-release"
+    "configure": "monorepo ci configure",
+    "test": "yarn test:lint && yarn test:coverage",
+    "test:unit": "cross-env NODE_ENV=test mocha",
+    "test:coverage": "cross-env NODE_ENV=test nyc mocha",
+    "test:lint": "eslint packages --ext .js",
+    "test:lint:fix": "eslint packages --ext .js --fix",
+    "build": "monorepo build",
+    "sync:packages": "monorepo sync packages",
+    "release": "semantic-release",
+    "release:dryRun": "semantic-release --dry-run"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again"
+    }
   },
   "repository": {
     "type": "git",
@@ -25,37 +39,36 @@
     "url": "https://github.com/TypedProject/ts-doc/issues"
   },
   "homepage": "https://github.com/TypedProject/ts-doc#readme",
-  "files": [
-    "bin/tsdoc.js",
-    "bin",
-    "src",
-    "components"
-  ],
-  "directories": {
-    "src": "src",
-    "components": "./components",
-    "bin": "./bin"
-  },
   "dependencies": {
-    "chalk": "3.0.0",
-    "ejs": "2.7.1",
-    "fancy-log": "1.3.3",
-    "fs-extra": "8.1.0",
-    "glob": "7.1.6",
-    "globby": "8.0.2",
-    "listr": "^0.14.3",
-    "read-pkg-up": "7.0.0",
-    "normalize-path": "3.0.0"
+    "lerna": "3.22.0"
   },
   "devDependencies": {
+    "@tsed/monorepo-utils": "1.11.0",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
-    "coveralls": "3.0.7",
-    "mocha": "6.2.2",
-    "nyc": "14.1.1",
+    "cross-env": "7.0.2",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "6.12.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-mocha": "8.0.0",
     "proxyquire": "2.1.3",
-    "sinon": "7.5.0",
-    "sinon-chai": "3.3.0",
-    "semantic-release": "17.2.4"
+    "husky": "4.3.0",
+    "lint-staged": "10.4.0",
+    "mocha": "8.1.3",
+    "nyc": "15.1.0",
+    "prettier": "2.1.2",
+    "semantic-release": "17.2.3",
+    "sinon": "9.0.3",
+    "sinon-chai": "3.5.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "monorepo": {
+    "productionBranch": "master",
+    "developBranch": "master",
+    "npmAccess": "public"
   }
 }
