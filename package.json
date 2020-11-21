@@ -45,7 +45,7 @@
     "globby": "8.0.2",
     "listr": "^0.14.3",
     "read-pkg-up": "7.0.0",
-    "ts-log-debug": "5.1.1"
+    "ts-log-debug": "5.5.3"
   },
   "devDependencies": {
     "chai": "4.2.0",
