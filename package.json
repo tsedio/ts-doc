@@ -1,6 +1,6 @@
 {
   "name": "@typedproject/root",
-  "version": "4.0.10",
+  "version": "4.0.11",
   "description": "Generate documentation in markdown for TypeScript API",
   "main": "./src/index.js",
   "bin": "./bin/tsdoc.js",
