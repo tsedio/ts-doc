@@ -1,13 +1,14 @@
 
 ---
-sidebar: auto
 meta:
  - name: keywords
    description: api typescript node.js documentation Ignore decorator
 ---
-# Ignore <Badge text="Decorator" type="decorator"/>  <Badge text="validation" title="validation" type="validation"/> <Badge text="swagger" title="swagger" type="swagger"/> <Badge text="schema" title="schema" type="schema"/> <Badge text="private" title="private" type="private"/>
+# Decorator Ignore
+
+<Badge text="Decorator" type="decorator"/>  <Badge text="validation" title="validation" type="validation"/> <Badge text="swagger" title="swagger" type="swagger"/> <Badge text="schema" title="schema" type="schema"/> <Badge text="private" title="private" type="private"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Ignore }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/schema/src/decorators/common/ignore"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/repo/blob/v1.0.0/packages/schema/src/decorators/common/ignore.ts#L0-L0">/packages/schema/src/decorators/common/ignore.ts</a></td></tr></tbody></table></section>
+<section class="table-features"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Ignore }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/schema/src/decorators/common/ignore"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/repo/blob/v1.0.0/packages/schema/src/decorators/common/ignore.ts#L0-L0">/packages/schema/src/decorators/common/ignore.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

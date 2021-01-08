@@ -1,14 +1,14 @@
 const {expect} = require("chai");
 const {getSnapshot} = require("../utils");
 const {compilePage} = require("../utils");
-
+const write = false;
 describe("Page", () => {
   describe("MaxLength example", () => {
     it("should render a page", async () => {
       const symbols = await compilePage(__dirname + "/data/*");
       const symbol = symbols.get("MaxLength");
 
-      expect(symbol.content).to.equal(getSnapshot(symbol));
+      expect(symbol.content).to.equal(getSnapshot(symbol, write));
     });
   });
 
@@ -18,7 +18,7 @@ describe("Page", () => {
       const symbol = symbols.get("ReturnsChainedDecorators");
 
       expect(symbol.symbolType).to.equal("interface");
-      expect(symbol.content).to.equal(getSnapshot(symbol));
+      expect(symbol.content).to.equal(getSnapshot(symbol, write));
     });
   });
 
@@ -28,7 +28,7 @@ describe("Page", () => {
       const symbol = symbols.get("RequestContext");
 
       expect(symbol.symbolType).to.equal("class");
-      expect(symbol.content).to.equal(getSnapshot(symbol));
+      expect(symbol.content).to.equal(getSnapshot(symbol, write));
     });
   });
 
@@ -38,7 +38,16 @@ describe("Page", () => {
       const symbol = symbols.get("Ignore");
 
       expect(symbol.symbolType).to.equal("decorator");
-      expect(symbol.content).to.equal(getSnapshot(symbol));
+      expect(symbol.content).to.equal(getSnapshot(symbol, write));
+    });
+  });
+
+  describe("ControllerProvider example", () => {
+    it("should render a page", async () => {
+      const symbols = await compilePage(__dirname + "/data/*");
+      const symbol = symbols.get("ControllerProvider");
+
+      expect(symbol.content).to.equal(getSnapshot(symbol, write));
     });
   });
 });
