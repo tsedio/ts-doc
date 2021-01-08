@@ -1,6 +1,6 @@
 {
   "name": "@typedproject/root",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "description": "Generate documentation in markdown for TypeScript API",
   "main": "./src/index.js",
   "bin": "./bin/tsdoc.js",
@@ -58,7 +58,7 @@
     "nyc": "15.1.0",
     "prettier": "2.1.2",
     "semantic-release": "17.2.3",
-    "sinon": "9.0.3",
+    "sinon": "9.2.3",
     "sinon-chai": "3.5.0"
   },
   "workspaces": {
