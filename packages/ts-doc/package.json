@@ -1,6 +1,6 @@
 {
   "name": "@typedproject/ts-doc",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "description": "Generate documentation in markdown for TypeScript API",
   "main": "./src/index.js",
   "bin": {
