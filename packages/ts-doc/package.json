@@ -1,5 +1,5 @@
 {
-  "name": "@typedproject/ts-doc",
+  "name": "@tsed/ts-doc",
   "version": "4.0.13",
   "description": "Generate documentation in markdown for TypeScript API",
   "main": "./src/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TypedProject/ts-doc.git"
+    "url": "https://github.com/tsedio/ts-doc.git"
   },
   "keywords": [
     "Vuepress",
@@ -19,9 +19,9 @@
   "author": "Romakita",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TypedProject/ts-doc/issues"
+    "url": "https://github.com/tsedio/ts-doc/issues"
   },
-  "homepage": "https://github.com/TypedProject/ts-doc#readme",
+  "homepage": "https://github.com/tsedio/ts-doc#readme",
   "directories": {
     "src": "./src",
     "components": "./components",
