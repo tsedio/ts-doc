@@ -2,6 +2,7 @@ const {context} = require("../context");
 const path = require("path");
 const fs = require("fs");
 const normalizePath = require("normalize-path");
+const readPkgUp = require("read-pkg-up");
 const mapExported = new Map();
 
 class DocFile {
@@ -34,20 +35,18 @@ class DocFile {
   }
 
   get module() {
-    const [pkgName, subPkgName] = this.relativePackagePath.replace(/^\//, "").split("/");
-    const pkgSettings = context.modules[pkgName];
-    let moduleName = pkgName;
+    const [packagePath] = this.relativePackagePath.split("/src");
+    const packageDir = path.join(context.rootDir, context.packagesDir, packagePath);
 
-    if (typeof pkgSettings === "object" && context.modules[pkgName][subPkgName]) {
-      moduleName = pkgName + "/" + subPkgName;
-    }
+    const {
+      packageJson: {name}
+    } = readPkgUp.sync({cwd: packageDir});
 
     return {
-      modulePath: path.join(context.rootDir, context.packagesDir, pkgName),
-      moduleName: `${context.scope}/${moduleName}`,
-      importFrom: `${context.scope}/${pkgName}`,
-      pkgName,
-      subPkgName
+      modulePath: normalizePath(packageDir),
+      moduleName: name,
+      importFrom: name,
+      pkgName: name.replace(context.scope, "").replace("/", "")
     };
   }
 

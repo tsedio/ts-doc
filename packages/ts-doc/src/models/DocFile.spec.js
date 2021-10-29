@@ -3,8 +3,11 @@ const path = require("path");
 const {DocFile} = require("./DocFile");
 const context = require("../context/context");
 const {Sinon, expect} = require("../test/tools");
+const readPkgUp = require("read-pkg-up");
+const normalizePath = require("normalize-path");
 
 describe("DocFile", () => {
+  let docFile;
   before(() => {
     context.set({
       rootDir: path.join(process.cwd()),
@@ -23,40 +26,41 @@ describe("DocFile", () => {
     });
 
     Sinon.stub(fs, "readFileSync").returns("content file");
-    this.docFile = new DocFile(path.join(process.cwd(), "/packages/common/di/lib/file.d.ts"));
+    Sinon.stub(readPkgUp, "sync").returns({packageJson: {name: "@scope/common"}});
+    docFile = new DocFile(path.join(process.cwd(), "/packages/common/di/lib/file.d.ts"));
   });
 
   after(() => {
     fs.readFileSync.restore();
+    readPkgUp.sync.restore();
   });
 
   it("should return the file", () => {
-    expect(this.docFile.file).to.eq(path.join(process.cwd(), "/packages/common/di/lib/file.d.ts"));
+    expect(docFile.file).to.eq(path.join(process.cwd(), "/packages/common/di/lib/file.d.ts"));
   });
 
   it("should return the path", () => {
-    expect(this.docFile.path).to.eq(path.join(process.cwd(), "/packages/common/di/lib/file.ts"));
+    expect(docFile.path).to.eq(path.join(process.cwd(), "/packages/common/di/lib/file.ts"));
   });
 
   it("should return the srcPath", () => {
-    expect(this.docFile.srcPath).to.eq(path.join(process.cwd(), "/packages/common/di/src/file.ts"));
+    expect(docFile.srcPath).to.eq(path.join(process.cwd(), "/packages/common/di/src/file.ts"));
   });
 
   it("should return the relativePackagePath", () => {
-    expect(this.docFile.relativePackagePath).to.eq("/common/di/src/file.ts");
+    expect(docFile.relativePackagePath).to.eq("/common/di/src/file.ts");
   });
 
   it("should return the relativePath", () => {
-    expect(this.docFile.relativePath).to.eq("packages/common/di/src/file.ts");
+    expect(docFile.relativePath).to.eq("packages/common/di/src/file.ts");
   });
 
   it("should return the module description", () => {
-    expect(this.docFile.module).to.deep.eq({
+    expect(docFile.module).to.deep.eq({
       importFrom: "@scope/common",
-      moduleName: "@scope/common/di",
-      modulePath: path.join(process.cwd(), "/packages/common"),
-      pkgName: "common",
-      subPkgName: "di"
+      moduleName: "@scope/common",
+      modulePath: normalizePath(process.cwd() + "/packages/common/di"),
+      pkgName: "common"
     });
   });
 });

@@ -3,7 +3,6 @@
 const globby = require("globby");
 const path = require("path");
 const chalk = require("chalk");
-const logger = require("fancy-log");
 const {render} = require("../render/render");
 const {context} = require("../context");
 const {trim} = require("../utils/trim");

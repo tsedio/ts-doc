@@ -8,7 +8,7 @@ meta:
 
 <Badge text="Interface" type="interface"/>
 <!-- Summary -->
-<section class="table-features"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ReturnsChainedDecorators }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/schema"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/repo/blob/v1.0.0/packages/schema/src/decorators/operations/returns.ts#L0-L0">/packages/schema/src/decorators/operations/returns.ts</a></td></tr></tbody></table></section>
+<section class="table-features"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ReturnsChainedDecorators }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/ts-doc"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/repo/blob/v1.0.0/packages/schema/src/decorators/operations/returns.ts#L0-L0">/packages/schema/src/decorators/operations/returns.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
