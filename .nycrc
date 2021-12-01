@@ -1,20 +1,20 @@
 {
   "include": [
-    "packages/*/src/**/*.js"
+    "packages/*/src/**/*.ts"
   ],
   "exclude": [
-    "**/index.js"
+    "**/index.ts"
   ],
   "reporter": [
     "lcov",
     "text-summary"
   ],
   "extension": [
-    ".js"
+    ".ts"
   ],
   "check-coverage": true,
-  "lines": 0,
-  "functions": 0,
-  "branches": 0,
-  "statements": 0
+  "lines": 89.54,
+  "functions": 84.49,
+  "branches": 73.8,
+  "statements": 89.15
 }

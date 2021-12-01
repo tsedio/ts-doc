@@ -20,7 +20,7 @@ meta:
 
 
 <!-- Params -->
-Param | Type | Description
+Param | Type | Description
 ---|---|---
  maxLength | `number` | The maximum length allowed 
 

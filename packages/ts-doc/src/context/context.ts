@@ -1,0 +1,129 @@
+import readPkgUp from "read-pkg-up";
+import logger from "fancy-log";
+import normalizePath from "normalize-path";
+import {Symbols} from "./symbols";
+import type {DocSymbol} from "../models/DocSymbol";
+
+const SYMBOL_TYPES = {
+  "@": {value: "decorator", label: "Decorator"},
+  T: {value: "type", label: "Type alias"},
+  C: {value: "class", label: "Class"},
+  S: {value: "service", label: "Service"},
+  I: {value: "interface", label: "Interface"},
+  K: {value: "const", label: "Constant"},
+  E: {value: "enum", label: "Enum"},
+  F: {value: "function", label: "Function"}
+};
+
+const SYMBOL_STATUS = {
+  S: {value: "stable", label: "Stable"},
+  D: {value: "deprecated", label: "Deprecated"},
+  E: {value: "experimental", label: "Experimental"},
+  P: {value: "private", label: "Private"},
+  O: {value: "public", label: "Public"}
+};
+
+const reverseKeys = (obj: any) => {
+  Object.keys(obj).forEach((key) => {
+    obj[key].code = key;
+    obj[obj[key].value] = obj[key];
+  });
+
+  return obj;
+};
+
+export class Context {
+  public settings: Record<string, any> = {};
+  public symbolTypes = reverseKeys(SYMBOL_TYPES);
+  public symbolStatus = SYMBOL_STATUS;
+  public status = SYMBOL_STATUS;
+  public symbols: Symbols = new Symbols();
+  public logger = logger;
+  public components: Map<string, (symbol: DocSymbol) => string> = new Map();
+  public github: string;
+  public version: string;
+  public projectName: string;
+
+  get rootDir() {
+    return normalizePath(this.settings.rootDir);
+  }
+
+  get packagesDir() {
+    return normalizePath(this.settings.packagesDir);
+  }
+
+  get scanPatterns() {
+    return this.settings.scanPatterns.map((s: any) => {
+      return s.replace("<rootDir>", this.rootDir);
+    });
+  }
+
+  get outputDir() {
+    return normalizePath(this.settings.outputDir.replace("<rootDir>", this.rootDir));
+  }
+
+  get jsonOutputDir() {
+    return normalizePath(this.settings.jsonOutputDir.replace("<rootDir>", this.rootDir));
+  }
+
+  get baseUrl() {
+    return this.settings.baseUrl;
+  }
+
+  get scope() {
+    return this.settings.scope;
+  }
+
+  get modules() {
+    return this.settings.modules;
+  }
+
+  get host() {
+    return `${this.github}/blob/v${this.version}/`;
+  }
+
+  srcResolver(dtsFile: any) {
+    dtsFile = normalizePath(dtsFile);
+
+    dtsFile = normalizePath(this.settings.srcResolver ? this.settings.srcResolver(dtsFile) : dtsFile.replace("lib/", "src/"));
+
+    return dtsFile;
+  }
+
+  outputResolver(file: any) {
+    file = normalizePath(file);
+    file = normalizePath(
+      this.settings.outputFileResolver ? this.settings.outputFileResolver(file) : file.replace("src/", "").replace("lib/", "")
+    );
+
+    return file;
+  }
+
+  set(obj: any) {
+    this.settings = obj;
+  }
+
+  readPkg() {
+    return readPkgUp().then((result) => {
+      if (result) {
+        this.importPkg(result.packageJson);
+        return result.packageJson;
+      }
+    });
+  }
+
+  importPkg(pkg: any) {
+    const {name, repository, version, tsdoc} = pkg;
+
+    this.github = repository.url.replace(".git", "").replace("git+", "");
+    this.version = version;
+    this.projectName = name;
+
+    if (tsdoc) {
+      this.settings.modules = tsdoc.modules;
+      this.settings.scope = tsdoc.scope;
+    }
+  }
+}
+
+export const context = new Context();

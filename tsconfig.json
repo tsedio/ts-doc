@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@clubmed/*": [
+        "packages/*/src"
+      ]
+    }
+  },
+  "linterOptions": {
+    "exclude": [
+    ]
+  },
+  "exclude": [
+    "test",
+    "**/test",
+    "lib",
+    "**/lib"
+  ]
+}

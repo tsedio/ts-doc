@@ -20,7 +20,7 @@ meta:
 
 
 <!-- Params -->
-Param | Type | Description
+Param | Type | Description
 ---|---|---
  cb | `boolean` "&#124;" <a href="/api/schema/interfaces/IgnoreCallback.html"><span class="token">IgnoreCallback</span></a> | Optional. Callback to know if the property must be ignored 
 
