@@ -2,7 +2,6 @@
 const fs = require("fs");
 const {buildApi} = require("../src/tasks/build-api");
 
-const file = `${process.cwd()}/tsdoc.config.js`;
 let config = {
   rootDir: process.cwd(),
   packagesDir: "packages/",
@@ -13,8 +12,14 @@ let config = {
   modules: {}
 };
 
-if (fs.existsSync(file)) {
-  config = require(file);
+const fileJS = `${process.cwd()}/tsdoc.config.js`;
+if (fs.existsSync(fileJS)) {
+  config = require(fileJS);
+}
+
+const fileCJS = `${process.cwd()}/tsdoc.config.cjs`;
+if (fs.existsSync(fileCJS)) {
+  config = require(fileCJS);
 }
 
 buildApi(config);

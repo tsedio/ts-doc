@@ -88,6 +88,63 @@ describe("DocParser", () => {
       ]);
     });
   });
+  describe("Decorator with params", () => {
+    it("should parse content and return all symbols", () => {
+      // GIVEN
+      const contents = readFileSync(__dirname + "/data/scenario-params.txt", {encoding: "utf8"});
+
+      // WHEN
+      const doc = new DocParser(contents).parse();
+
+      // THEN
+      expect(Array.from(doc.symbols.keys())).to.deep.eq(["MaxLength"]);
+
+      const symbol1 = doc.symbols.get("MaxLength");
+
+      expect(!!symbol1).to.eq(true);
+      expect(symbol1.symbolType).to.equal("decorator");
+      expect(symbol1.overview).to.equal("function MaxLength(maxLength: number): (...args: any[]) => any;");
+      expect(symbol1.labels).to.deep.equal([
+        {
+          key: "param",
+          value: "{number} maxLength The maximum length allowed"
+        },
+        {
+          key: "decorator",
+          value: "decorator"
+        },
+        {
+          key: "ajv",
+          value: "ajv"
+        },
+        {
+          key: "jsonMapper",
+          value: "jsonMapper"
+        },
+        {
+          key: "swagger",
+          value: "swagger"
+        },
+        {
+          key: "schema",
+          value: "schema"
+        },
+        {
+          key: "propertyDecorator",
+          value: "propertyDecorator"
+        },
+        {
+          key: "paramDecorator",
+          value: "paramDecorator"
+        },
+        {
+          key: "model",
+          value: "model"
+        }
+      ]);
+      expect(symbol1.getMembers()).to.deep.equal([]);
+    });
+  });
   describe("Decorator with multiple signature definition", () => {
     it("should parse content and return all symbols", () => {
       // GIVEN
