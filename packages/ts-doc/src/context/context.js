@@ -1,6 +1,7 @@
 const readPkgUp = require("read-pkg-up");
 const logger = require("fancy-log");
 const normalizePath = require("normalize-path");
+const path = require("path");
 
 const SYMBOL_TYPES = {
   "@": {value: "decorator", label: "Decorator"},
@@ -31,7 +32,9 @@ const reverseKeys = (obj) => {
 };
 
 module.exports = {
-  settings: {},
+  settings: {
+    templatesDir: path.join(__dirname, "..", "..", "components")
+  },
   symbolTypes: reverseKeys(SYMBOL_TYPES),
   symbolStatus: SYMBOL_STATUS,
   status: SYMBOL_STATUS,
@@ -62,6 +65,10 @@ module.exports = {
 
   get jsonOutputDir() {
     return normalizePath(this.settings.jsonOutputDir.replace("<rootDir>", this.rootDir));
+  },
+
+  get templatesDir() {
+    return normalizePath(this.settings.templatesDir.replace("<rootDir>", this.rootDir));
   },
 
   get baseUrl() {

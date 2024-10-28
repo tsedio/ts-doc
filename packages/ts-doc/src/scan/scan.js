@@ -10,29 +10,32 @@ const {DocParser} = require("../parsers/DocParser");
 const {DocFile} = require("../models/DocFile");
 
 module.exports = {
-  /**
-   *
-   * @param directory
-   */
-  scanComponents(directory) {
+  async scanComponents(directory) {
     context.logger("Scan components '" + chalk.cyan(directory) + "'");
 
-    const files = globby.sync(path.join(directory, "**/*.ejs"));
+    const files = await globby(path.join(directory, "**/*.ejs"));
 
-    files.forEach((file) => {
-      const component = require(file.replace(".ejs", ".js"));
+    const promises = files.map(async (file) => {
+      try {
+        const mod = await import(file.replace(".ejs", ".js"));
+        const component = mod.default || mod;
 
-      context.components[component.name] = (...args) => {
-        const content = render(file, component.method(...args));
+        context.components[component.name] = (...args) => {
+          const content = render(file, component.method(...args));
 
-        if (component.trim) {
-          return trim(content);
-        }
-        return "\n" + content + "\n";
-      };
+          if (component.trim) {
+            return trim(content);
+          }
+          return "\n" + content + "\n";
+        };
 
-      context.logger("Import component '" + chalk.cyan(path.basename(file)) + "'");
+        context.logger("Import component '" + chalk.cyan(path.basename(file)) + "'");
+      } catch (er) {
+        context.logger.error("Fail to load template", chalk.red(er), er.stack);
+      }
     });
+
+    await Promise.all(promises);
 
     return files;
   },

@@ -2,6 +2,7 @@ const {existsSync, writeFileSync, readFileSync} = require("fs");
 const {resolve, join} = require("path");
 const {scanComponents, scanFiles} = require("../src/scan/scan");
 const {context} = require("../src/context");
+const path = require("path");
 
 const ROOT_DIR = __dirname;
 const SNAPSHOTS_DIR = resolve(join(ROOT_DIR, "snapshots"));
@@ -18,13 +19,14 @@ async function compilePage() {
     baseUrl: "/api",
     scope: "@tsed",
     scanPatterns: ["<rootDir>/packages/**/lib/**/*.d.ts"],
+    templatesDir: COMPONENTS_DIR,
     modules: {}
   };
 
   context.logger = () => {};
   context.logger.error = console.error;
 
-  await scanComponents(COMPONENTS_DIR);
+  await scanComponents(context.settings.templatesDir);
   await scanFiles(context.scanPatterns);
 
   return context.symbols.toArray().reduce((map, symbol) => {
