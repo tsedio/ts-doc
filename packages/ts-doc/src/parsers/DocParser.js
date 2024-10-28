@@ -4,6 +4,7 @@ const {DocSymbolParser} = require("./DocSymbolParser");
 const {sumBracket} = require("./sum-bracket");
 
 const {stripsTags} = require("../utils/strips");
+const {logger} = require("../context/context");
 
 const EXPORT_PATTERN = /^export /;
 
@@ -37,9 +38,13 @@ class DocParser {
     const {symbols} = new DocParser(docFile.contents).parse();
 
     for (const [, symbol] of symbols) {
-      await symbol.setDocFile(docFile);
-      const newSymbol = context.symbols.push(symbol);
-      docFile.symbols.set(newSymbol.symbolName, newSymbol);
+      try {
+        await symbol.setDocFile(docFile);
+        const newSymbol = context.symbols.push(symbol);
+        docFile.symbols.set(newSymbol.symbolName, newSymbol);
+      } catch (er) {
+        logger.error("Fail to process symbol", {symbol, error: er});
+      }
     }
 
     return docFile.symbols;

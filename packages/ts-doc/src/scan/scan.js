@@ -53,7 +53,7 @@ module.exports = {
     context.logger("Scan folders '" + chalk.cyan(JSON.stringify(patterns)) + "'");
 
     let symbolsSize = 0;
-    const files = globby.sync(patterns);
+    const files = await globby(patterns);
 
     for (const file of files) {
       try {

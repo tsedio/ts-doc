@@ -25,8 +25,7 @@ export default [
       parser: typescriptParser,
       parserOptions: {
         ecmaVersion: "latest",
-        sourceType: "module",
-        tsconfigRootDir: join(import.meta.dirname, "tsconfig.eslint.json")
+        sourceType: "module"
       },
       globals: {
         ...globals.node
