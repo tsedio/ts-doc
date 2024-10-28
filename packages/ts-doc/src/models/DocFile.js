@@ -70,7 +70,7 @@ class DocFile {
         return mapExported.get(file);
       }
     } catch (er) {
-      logger.error("Fail to import module", {file, modulePath});
+      logger.error("Fail to import module", {file, modulePath, error: er});
     }
     return undefined;
   }

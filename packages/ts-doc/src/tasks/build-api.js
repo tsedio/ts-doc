@@ -13,7 +13,7 @@ module.exports = {
     context.set(config);
     return Promise.resolve()
       .then(() => context.readPkg())
-      .then(() => scanComponents(config.templatesDir))
+      .then(() => scanComponents(context.templatesDir))
       .then(() => scanFiles(context.scanPatterns))
       .then(() => {
         let symbols = 0;

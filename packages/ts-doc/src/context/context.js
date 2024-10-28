@@ -104,7 +104,7 @@ module.exports = {
   },
 
   set(obj) {
-    this.settings = obj;
+    Object.assign(this.settings, obj);
   },
 
   readPkg() {
