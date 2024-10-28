@@ -4,7 +4,7 @@ const context = require("../context/context");
 const {expect} = require("../test/tools");
 
 describe("DocSymbol", () => {
-  before(() => {
+  before(async () => {
     context.github = "https://github.com/repo";
     context.version = "1.0.0";
 
@@ -26,7 +26,7 @@ describe("DocSymbol", () => {
 
     this.docSymbol = new DocSymbol();
     this.docSymbol.symbolName = "SymbolName";
-    this.docSymbol.setDocFile({
+    await this.docSymbol.setDocFile({
       file: path.join(process.cwd(), "/packages/common/di/lib/file.d.ts"),
       path: path.join(process.cwd(), "/packages/common/di/lib/file.ts"),
       srcPath: path.join(process.cwd(), "/packages/common/di/src/file.ts"),
@@ -39,7 +39,7 @@ describe("DocSymbol", () => {
         pkgName: "common",
         subPkgName: "di"
       },
-      requireModule() {
+      importModule() {
         return {};
       }
     });

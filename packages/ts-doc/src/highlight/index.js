@@ -1,7 +1,8 @@
 "use strict";
 
 const {context} = require("../context");
-const KEYWORDS = /(\benum\b|\bstatic\b|\bclass\b|\binterface\b|\bprivate\b|\bpublic\b|\bconst\b|\blet\b|\bprotected\b|\bimplements\b|\bconstructor\b|\breadonly\b|\babstract\b|\bimport\b|\bexport\b|\bas\b|\bfrom\b|\bextends\b)/g;
+const KEYWORDS =
+  /(\benum\b|\bstatic\b|\bclass\b|\binterface\b|\bprivate\b|\bpublic\b|\bconst\b|\blet\b|\bprotected\b|\bimplements\b|\bconstructor\b|\breadonly\b|\babstract\b|\bimport\b|\bexport\b|\bas\b|\bfrom\b|\bextends\b)/g;
 const TYPES = /(\bany\b|\bstring\b|\bboolean\b|\bnumber\b|\bDate\b|\bvoid\b)/g;
 const SEPARATOR = /(:|;|,|\(|\)|{|}|\[|\]| = )/g;
 
