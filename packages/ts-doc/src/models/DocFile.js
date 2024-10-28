@@ -1,6 +1,7 @@
 const {context} = require("../context");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs/promises");
+const fsSync = require("fs");
 const normalizePath = require("normalize-path");
 const readPkgUp = require("read-pkg-up");
 const mapExported = new Map();
@@ -13,7 +14,7 @@ class DocFile {
   constructor(file) {
     this.file = normalizePath(file);
     this.symbols = new Map();
-    this.contents = fs.readFileSync(file).toString();
+    this.contents = fsSync.readFileSync(file).toString();
   }
 
   get path() {
@@ -50,12 +51,12 @@ class DocFile {
     };
   }
 
-  requireModule() {
+  async importModule() {
     const {modulePath} = this.module;
     let file = path.join(modulePath, "index.js");
 
-    if (fs.existsSync(path.join(modulePath, "package.json"))) {
-      const pkg = require(path.join(modulePath, "package.json"));
+    if (fsSync.existsSync(path.join(modulePath, "package.json"))) {
+      const pkg = JSON.parse(await fs.readFile(path.join(modulePath, "package.json"), {encoding: "utf-8"}));
       file = path.join(modulePath, pkg.main);
     }
 
@@ -63,8 +64,8 @@ class DocFile {
       return mapExported.get(file);
     }
 
-    if (fs.existsSync(file)) {
-      mapExported.set(file, require(file));
+    if (fsSync.existsSync(file)) {
+      mapExported.set(file, await import(file));
       return mapExported.get(file);
     }
 

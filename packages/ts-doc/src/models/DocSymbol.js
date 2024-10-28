@@ -159,7 +159,7 @@ class DocSymbol {
     });
   }
 
-  setDocFile(docFile) {
+  async setDocFile(docFile) {
     this.docFile = docFile;
 
     if (this.relativePath.match("decorators") && this.symbolType === "function") {
@@ -178,7 +178,7 @@ class DocSymbol {
       if (this.symbolType !== "interface") {
         this.private = true;
 
-        const exported = this.docFile.requireModule();
+        const exported = await this.docFile.importModule();
 
         if (exported) {
           const symbolPrivate = exported[this.symbolName.trim()];

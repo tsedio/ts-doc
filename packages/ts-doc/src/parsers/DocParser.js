@@ -33,14 +33,14 @@ class DocParser {
     this.contents = contents;
   }
 
-  static parse(docFile) {
+  static async parse(docFile) {
     const {symbols} = new DocParser(docFile.contents).parse();
 
-    symbols.forEach((symbol) => {
-      symbol.setDocFile(docFile);
-      symbol = context.symbols.push(symbol);
-      docFile.symbols.set(symbol.symbolName, symbol);
-    });
+    for (const [, symbol] of symbols) {
+      await symbol.setDocFile(docFile);
+      const newSymbol = context.symbols.push(symbol);
+      docFile.symbols.set(newSymbol.symbolName, newSymbol);
+    }
 
     return docFile.symbols;
   }

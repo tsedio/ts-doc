@@ -49,21 +49,24 @@ module.exports = {
    *
    * @param patterns
    */
-  scanFiles(patterns) {
+  async scanFiles(patterns) {
     context.logger("Scan folders '" + chalk.cyan(JSON.stringify(patterns)) + "'");
 
     let symbolsSize = 0;
+    const files = globby.sync(patterns);
 
-    globby.sync(patterns).forEach((file) => {
+    for (const file of files) {
       try {
-        DocParser.parse(new DocFile(file)).forEach((symbol) => {
+        const symbols = await DocParser.parse(new DocFile(file));
+
+        symbols.forEach((symbol) => {
           context.logger(`Scanned symbol '${chalk.cyan(symbol.symbolName)}'`);
           symbolsSize++;
         });
       } catch (er) {
         context.logger.error(chalk.red(er), er.stack);
       }
-    });
+    }
 
     context.logger(`${chalk.green(symbolsSize)} scanned symbols`);
   }
