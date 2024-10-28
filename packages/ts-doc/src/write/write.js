@@ -4,29 +4,8 @@ const fsExtra = require("fs-extra");
 const logger = require("fancy-log");
 const chalk = require("chalk");
 const {context, symbolTypes, symbolStatus} = require("../context");
-const {render} = require("../render/render");
-const {scanTemplate} = require("../scan/scan");
 
 module.exports = {
-  /**
-   *
-   * @param templatePattern
-   */
-  writeTemplate(templatePattern) {
-    scanTemplate(templatePattern).forEach((file) => {
-      const outfile = file.replace(/.ejs|.emd/, ".md");
-      logger(`Write '${chalk.cyan(outfile)}'`);
-      const content = render(file);
-
-      try {
-        fsExtra.mkdirsSync(outfile);
-      } catch (er) {}
-      fsExtra.writeFileSync(outfile, content.trim(), {
-        encoding: "utf8",
-        flag: "w+"
-      });
-    });
-  },
   /**
    *
    * @param symbol

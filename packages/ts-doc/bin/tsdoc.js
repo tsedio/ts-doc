@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require("fs");
 const {buildApi} = require("../src/tasks/build-api");
+const path = require("path");
 
 let config = {
   rootDir: process.cwd(),
@@ -9,6 +10,7 @@ let config = {
   outputDir: "<rootDir>/docs/api",
   baseUrl: "/api",
   jsonOutputDir: "<rootDir>/docs/.vuepress/public",
+  templatesDir: path.join(__dirname, "..", "..", "components"),
   modules: {}
 };
 
