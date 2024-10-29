@@ -14,7 +14,7 @@ meta:
 ## Overview
 
 
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang ">function <span class="token function">Ignore</span><span class="token punctuation">(</span>cb?<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | <a href="/api/schema/interfaces/IgnoreCallback.html"><span class="token">IgnoreCallback</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> =&gt; <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang ">function <span class="token function">Ignore</span><span class="token punctuation">(</span>cb?<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | <a href="/api/schema/interfaces/interface-ignore-callback.html"><span class="token">IgnoreCallback</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> =&gt; <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre></div>
 
 
 
@@ -22,7 +22,7 @@ meta:
 <!-- Params -->
 Param | Type | Description
 ---|---|---
- cb | `boolean` "&#124;" <a href="/api/schema/interfaces/IgnoreCallback.html"><span class="token">IgnoreCallback</span></a> | Optional. Callback to know if the property must be ignored 
+ cb | `boolean` "&#124;" <a href="/api/schema/interfaces/interface-ignore-callback.html"><span class="token">IgnoreCallback</span></a> | Optional. Callback to know if the property must be ignored 
 
 
 

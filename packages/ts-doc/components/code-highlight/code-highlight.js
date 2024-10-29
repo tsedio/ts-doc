@@ -1,5 +1,5 @@
 const {stripsComments} = require("../../src/utils/strips");
-const {highlight} = require("../../src/highlight");
+const {highlight} = require("./highlight");
 
 module.exports = {
   name: "codeHighlight",
