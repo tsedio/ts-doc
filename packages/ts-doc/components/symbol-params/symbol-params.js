@@ -1,4 +1,4 @@
-const {bindSymbols} = require("../../src/highlight");
+const {bindSymbols} = require("../code-highlight/highlight");
 module.exports = {
   name: "symbolParams",
   trim: false,

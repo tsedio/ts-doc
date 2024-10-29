@@ -18,7 +18,7 @@ meta:
     
     <span class="token function">ContentType</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     
-    <span class="token function"><a href="/api/schema/decorators/common/Description.html"><span class="token">Description</span></a></span><span class="token punctuation">(</span>description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
+    <span class="token function"><a href="/api/schema/decorators/common/decorator-description.html"><span class="token">Description</span></a></span><span class="token punctuation">(</span>description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     
     <span class="token function">Examples</span><span class="token punctuation">(</span>examples<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     
@@ -30,13 +30,13 @@ meta:
     
     <span class="token function">Nested</span><span class="token punctuation">(</span>...generics<span class="token punctuation">:</span> <span class="token punctuation">(</span>Type&lt;<span class="token keyword">any</span>&gt; | <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     
-    <span class="token function">Header</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><a href="/api/schema/interfaces/JsonHeader.html"><span class="token">JsonHeader</span></a> & <span class="token punctuation">{</span>
+    <span class="token function">Header</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><a href="/api/schema/interfaces/interface-json-header.html"><span class="token">JsonHeader</span></a> & <span class="token punctuation">{</span>
         value?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     
-    <span class="token function">Headers</span><span class="token punctuation">(</span>headers<span class="token punctuation">:</span> <a href="/api/schema/interfaces/JsonHeaders.html"><span class="token">JsonHeaders</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
+    <span class="token function">Headers</span><span class="token punctuation">(</span>headers<span class="token punctuation">:</span> <a href="/api/schema/interfaces/interface-json-headers.html"><span class="token">JsonHeaders</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     
-    <span class="token function"><a href="/api/schema/decorators/common/Schema.html"><span class="token">Schema</span></a></span><span class="token punctuation">(</span>schema<span class="token punctuation">:</span> Partial&lt;<a href="/api/schema/domain/JsonSchemaObject.html"><span class="token">JsonSchemaObject</span></a>&gt;<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
+    <span class="token function"><a href="/api/schema/decorators/common/decorator-schema.html"><span class="token">Schema</span></a></span><span class="token punctuation">(</span>schema<span class="token punctuation">:</span> Partial&lt;<a href="/api/schema/domain/interface-json-schema-object.html"><span class="token">JsonSchemaObject</span></a>&gt;<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre></div>
 
@@ -74,7 +74,7 @@ Set a Content-Type for the current response
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function"><a href="/api/schema/decorators/common/Description.html"><span class="token">Description</span></a></span><span class="token punctuation">(</span>description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function"><a href="/api/schema/decorators/common/decorator-description.html"><span class="token">Description</span></a></span><span class="token punctuation">(</span>description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
 
 </div>
 
@@ -200,7 +200,7 @@ Declare a nested generic models
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function">Header</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><a href="/api/schema/interfaces/JsonHeader.html"><span class="token">JsonHeader</span></a> & <span class="token punctuation">{</span>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function">Header</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><a href="/api/schema/interfaces/interface-json-header.html"><span class="token">JsonHeader</span></a> & <span class="token punctuation">{</span>
      value?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
 
@@ -223,7 +223,7 @@ Add header.
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function">Headers</span><span class="token punctuation">(</span>headers<span class="token punctuation">:</span> <a href="/api/schema/interfaces/JsonHeaders.html"><span class="token">JsonHeaders</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function">Headers</span><span class="token punctuation">(</span>headers<span class="token punctuation">:</span> <a href="/api/schema/interfaces/interface-json-headers.html"><span class="token">JsonHeaders</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
 
 </div>
 
@@ -244,7 +244,7 @@ Add headers
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function"><a href="/api/schema/decorators/common/Schema.html"><span class="token">Schema</span></a></span><span class="token punctuation">(</span>schema<span class="token punctuation">:</span> Partial&lt;<a href="/api/schema/domain/JsonSchemaObject.html"><span class="token">JsonSchemaObject</span></a>&gt;<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token function"><a href="/api/schema/decorators/common/decorator-schema.html"><span class="token">Schema</span></a></span><span class="token punctuation">(</span>schema<span class="token punctuation">:</span> Partial&lt;<a href="/api/schema/domain/interface-json-schema-object.html"><span class="token">JsonSchemaObject</span></a>&gt;<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span></code></pre></div>
 
 </div>
 

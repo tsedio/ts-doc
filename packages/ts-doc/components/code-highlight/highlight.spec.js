@@ -1,5 +1,5 @@
 const {expect} = require("chai");
-const {highlight} = require("./index");
+const {highlight} = require("./highlight");
 
 describe("Highlight", () => {
   it("should highlight content", () => {

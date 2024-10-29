@@ -58,17 +58,24 @@ module.exports = {
     let symbolsSize = 0;
     const files = await globby(patterns);
 
-    for (const file of files) {
-      try {
-        const symbols = await DocParser.parse(new DocFile(file));
+    // paginate files by 5
+    for (let i = 0; i < files.length; i += 5) {
+      const filesChunk = files.slice(i, i + 5);
 
-        symbols.forEach((symbol) => {
-          context.logger(`Scanned symbol '${chalk.cyan(symbol.symbolName)}'`);
-          symbolsSize++;
-        });
-      } catch (er) {
-        context.logger.error(chalk.red(er), er.stack);
-      }
+      await Promise.all(
+        filesChunk.map(async (file) => {
+          try {
+            const symbols = await DocParser.parse(new DocFile(file));
+
+            symbols.forEach((symbol) => {
+              context.logger(`Scanned symbol '${chalk.cyan(symbol.symbolName)}'`);
+              symbolsSize++;
+            });
+          } catch (er) {
+            context.logger.error(chalk.red(er), er.stack);
+          }
+        })
+      );
     }
 
     context.logger(`${chalk.green(symbolsSize)} scanned symbols`);

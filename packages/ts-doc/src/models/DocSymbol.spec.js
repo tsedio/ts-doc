@@ -26,6 +26,7 @@ describe("DocSymbol", () => {
 
     this.docSymbol = new DocSymbol();
     this.docSymbol.symbolName = "SymbolName";
+    this.docSymbol.symbolType = "Const";
     await this.docSymbol.setDocFile({
       file: path.join(process.cwd(), "/packages/common/di/lib/file.d.ts"),
       path: path.join(process.cwd(), "/packages/common/di/lib/file.ts"),
@@ -88,10 +89,10 @@ describe("DocSymbol", () => {
   });
 
   it("should return the url", () => {
-    expect(this.docSymbol.url).to.eq("/api/common/di/SymbolName.html");
+    expect(this.docSymbol.url).to.eq("/api/common/di/const-symbol-name.html");
   });
 
   it("should return the outputPath", () => {
-    expect(this.docSymbol.outputPath).to.eq(path.join(process.cwd(), "/docs/api/common/di/SymbolName.md"));
+    expect(this.docSymbol.outputPath).to.eq(path.join(process.cwd(), "/docs/api/common/di/const-symbol-name.md"));
   });
 });

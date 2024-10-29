@@ -37,31 +37,30 @@ class DocParser {
   static async parse(docFile) {
     const {symbols} = new DocParser(docFile.contents).parse();
 
-    for (const [, symbol] of symbols) {
-      try {
-        await symbol.setDocFile(docFile);
+    const promises = await Promise.all(
+      [...symbols.values()].map(async (symbol) => {
+        try {
+          await symbol.setDocFile(docFile);
+
+          return symbol;
+        } catch (er) {
+          logger.error("Fail to process symbol", {symbol, error: er});
+        }
+      })
+    );
+
+    const parsedSymbols = await Promise.all(promises);
+
+    for (const symbol of parsedSymbols) {
+      if (symbol) {
         const newSymbol = context.symbols.push(symbol);
+
         docFile.symbols.set(newSymbol.symbolName, newSymbol);
-      } catch (er) {
-        logger.error("Fail to process symbol", {symbol, error: er});
       }
     }
 
     return docFile.symbols;
   }
-
-  // /**
-  //  *
-  //  * @param str
-  //  * @returns {string}
-  //  */
-  // overview (str = '') {
-  //   return stripsTags(stripsComments(str))
-  //     .split('\n')
-  //     .filter(o => !!o.trim())
-  //     .join('\n')
-  //     .trim()
-  // }
 
   /**
    *

@@ -5,24 +5,39 @@ const logger = require("fancy-log");
 const chalk = require("chalk");
 const {context, symbolTypes, symbolStatus} = require("../context");
 
+let cache = new Set();
+
 module.exports = {
   /**
    *
    * @param symbol
    * @param content
    */
-  writeSymbol(symbol, content) {
+  async writeSymbol(symbol, content) {
     if (symbol.symbolName.trim() === "") {
-      console.error("Symbol empty =>", symbol);
       return;
     }
 
+    // prevent duplicate write
+    if (cache.has(symbol.outputPath)) {
+      return;
+    }
+
+    cache.add(symbol.outputPath);
+
     try {
-      fsExtra.mkdirsSync(path.dirname(symbol.outputPath), {});
-    } catch (er) {}
-    fsExtra.writeFileSync(symbol.outputPath, content.trim(), {
-      flag: "w+"
+      await fsExtra.mkdirs(path.dirname(symbol.outputPath), {});
+    } catch (error) {
+      if (error.code !== "EEXIST") {
+        logger.warn(`Failed to create directory for ${symbol.outputPath}: ${error.message}`);
+        throw error;
+      }
+    }
+
+    await fsExtra.writeFile(symbol.outputPath, content.trim(), {
+      flag: "w"
     });
+
     logger(`Write '${chalk.cyan(symbol.outputPath.replace(context.rootDir, ""))}'`);
   },
 
@@ -35,7 +50,7 @@ module.exports = {
     const {version, scope} = context;
 
     const modules = context.symbols.toArray().reduce((acc, symbol) => {
-      const {symbolName, module, exported, symbolType, symbolLabel, symbolCode, labels} = symbol;
+      const {symbolName, module, exported, symbolType, symbolLabel, symbolCode, labels, id} = symbol;
 
       const key = module.moduleName;
       acc[key] = acc[key] || {symbols: [], name: key};
@@ -47,6 +62,7 @@ module.exports = {
       }
 
       acc[key].symbols.push({
+        id,
         path: symbol.url.replace(".html", ""),
         symbolName,
         module: module.moduleName,

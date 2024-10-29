@@ -15,7 +15,7 @@ meta:
 
 
 <div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token keyword">class</span> ControllerProvider&lt;T<span class="token punctuation"> = </span><span class="token keyword">any</span>&gt; <span class="token keyword">extends</span> Provider&lt;T&gt; <span class="token punctuation">{</span>
-    <span class="token keyword">readonly</span> entity<span class="token punctuation">:</span> <a href="/api/schema/domain/JsonEntityStore.html"><span class="token">JsonEntityStore</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> entity<span class="token punctuation">:</span> <a href="/api/schema/domain/class-json-entity-store.html"><span class="token">JsonEntityStore</span></a><span class="token punctuation">;</span>
     
     
     
@@ -25,9 +25,9 @@ meta:
     
     get <span class="token function">endpoints</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> EndpointMetadata<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     
-    get <span class="token function">children</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/platform/domain/IChildrenController.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    get <span class="token function">children</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/platform/domain/interface-i-children-controller.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     
-    set <span class="token function">children</span><span class="token punctuation">(</span>children<span class="token punctuation">:</span> <a href="/api/common/platform/domain/IChildrenController.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    set <span class="token function">children</span><span class="token punctuation">(</span>children<span class="token punctuation">:</span> <a href="/api/common/platform/domain/interface-i-children-controller.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     
     get <span class="token function">routerOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     
@@ -82,7 +82,7 @@ Controllers that depend to this controller.
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token keyword">readonly</span> entity<span class="token punctuation">:</span> <a href="/api/schema/domain/JsonEntityStore.html"><span class="token">JsonEntityStore</span></a><span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang "><span class="token keyword">readonly</span> entity<span class="token punctuation">:</span> <a href="/api/schema/domain/class-json-entity-store.html"><span class="token">JsonEntityStore</span></a><span class="token punctuation">;</span></code></pre></div>
 
 </div>
 
@@ -150,7 +150,7 @@ Controllers that depend to this controller.
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang ">get <span class="token function">children</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/platform/domain/IChildrenController.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang ">get <span class="token function">children</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/platform/domain/interface-i-children-controller.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre></div>
 
 </div>
 
@@ -167,7 +167,7 @@ Controllers that depend to this controller.
 ::: v-pre
 
 <div class="method-overview">
-<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang ">set <span class="token function">children</span><span class="token punctuation">(</span>children<span class="token punctuation">:</span> <a href="/api/common/platform/domain/IChildrenController.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<div class="language-typescript"><pre class="language-typescript" v-pre=""><code class="typescript-lang ">set <span class="token function">children</span><span class="token punctuation">(</span>children<span class="token punctuation">:</span> <a href="/api/common/platform/domain/interface-i-children-controller.html"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
 
 </div>
 

@@ -2,6 +2,7 @@ const path = require("path");
 const normalizePath = require("normalize-path");
 const {context} = require("../context");
 const {descriptionParser} = require("../parsers/description-parser.js");
+const {dashCase} = require("../utils/dashCase");
 
 const _filterParams = (labels) => {
   return labels
@@ -43,6 +44,10 @@ class DocSymbol {
     this.description = "";
     this.exported = false;
     this.labels = [];
+  }
+
+  get id() {
+    return dashCase([this.symbolType, this.symbolName].filter(Boolean).join("-"));
   }
 
   get path() {
@@ -112,11 +117,7 @@ class DocSymbol {
    * @returns {*}
    */
   get url() {
-    const url = [
-      context.baseUrl,
-      normalizePath(path.dirname(this.docFile.relativePackagePath)), //.replace(/\.ts$/, '')
-      `${this.symbolName}.html`
-    ].join("/");
+    const url = [context.baseUrl, normalizePath(path.dirname(this.docFile.relativePackagePath)), `${this.id}.html`].join("/");
 
     return context.outputResolver(url);
   }
@@ -126,7 +127,7 @@ class DocSymbol {
    * @returns {*}
    */
   get outputPath() {
-    const file = normalizePath(path.join(context.outputDir, path.dirname(this.docFile.relativePackagePath), `${this.symbolName}.md`));
+    const file = normalizePath(path.join(context.outputDir, path.dirname(this.docFile.relativePackagePath), `${this.id}.md`));
 
     return context.outputResolver(file);
   }

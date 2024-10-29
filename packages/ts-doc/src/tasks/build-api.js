@@ -15,13 +15,17 @@ module.exports = {
       .then(() => context.readPkg())
       .then(() => scanComponents(context.templatesDir))
       .then(() => scanFiles(context.scanPatterns))
-      .then(() => {
+      .then(async () => {
         let symbols = 0;
-        context.symbols.forEach((symbol) => {
-          const content = context.components.page(symbol);
-          symbols++;
-          return writeSymbol(symbol, content);
-        });
+
+        await Promise.all(
+          context.symbols.toArray().map((symbol) => {
+            const content = context.components.page(symbol);
+            symbols++;
+            return writeSymbol(symbol, content);
+          })
+        );
+
         logger(chalk.green(symbols) + " symbols write");
       })
       .then(() => writeJson())
