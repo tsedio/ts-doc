@@ -55,6 +55,10 @@ class DocParser {
       if (symbol) {
         const newSymbol = context.symbols.push(symbol);
 
+        if (newSymbol.skip || ["_default", "default"].includes(newSymbol.symbolName)) {
+          continue;
+        }
+
         docFile.symbols.set(newSymbol.symbolName, newSymbol);
       }
     }
