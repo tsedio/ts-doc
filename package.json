@@ -1,6 +1,6 @@
 {
   "name": "@tsed/root",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Generate documentation in markdown for TypeScript API",
   "main": "./src/index.js",
   "bin": "./bin/tsdoc.js",
