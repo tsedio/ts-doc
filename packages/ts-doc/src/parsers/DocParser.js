@@ -7,6 +7,15 @@ const {stripsTags} = require("../utils/strips");
 const {logger} = require("../context/context");
 
 const EXPORT_PATTERN = /^export /;
+const DEFAULT_SYMBOL_NAMES = new Set(["_default", "default"]);
+
+const shouldIgnoreSymbol = (symbol) => {
+  if (!symbol) {
+    return true;
+  }
+
+  return DEFAULT_SYMBOL_NAMES.has(symbol.symbolName) || symbol.symbolType === "default";
+};
 
 function isOpenedComment(line) {
   return line.trim() === "/**";
@@ -52,15 +61,17 @@ class DocParser {
     const parsedSymbols = await Promise.all(promises);
 
     for (const symbol of parsedSymbols) {
-      if (symbol) {
-        const newSymbol = context.symbols.push(symbol);
-
-        if (newSymbol.skip || ["_default", "default"].includes(newSymbol.symbolName)) {
-          continue;
-        }
-
-        docFile.symbols.set(newSymbol.symbolName, newSymbol);
+      if (shouldIgnoreSymbol(symbol)) {
+        continue;
       }
+
+      const newSymbol = context.symbols.push(symbol);
+
+      if (newSymbol.skip || shouldIgnoreSymbol(newSymbol)) {
+        continue;
+      }
+
+      docFile.symbols.set(newSymbol.symbolName, newSymbol);
     }
 
     return docFile.symbols;
@@ -169,7 +180,7 @@ class DocParser {
 
     this.setSymbol(symbol, map);
 
-    if (["_default", "default"].includes(symbol?.symbolName) || symbol?.skip) {
+    if (shouldIgnoreSymbol(symbol) || symbol?.skip) {
       this.symbols.delete(symbolParser.symbol?.symbolName);
     }
 
