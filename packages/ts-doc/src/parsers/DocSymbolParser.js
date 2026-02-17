@@ -5,6 +5,7 @@ const {context} = require("../context");
 class DocSymbolParser {
   constructor(line, description, contents) {
     this.line = line;
+    this.skip = false;
     // this.contents = contents;
 
     description = descriptionParser(description);
@@ -79,7 +80,8 @@ class DocSymbolParser {
         symbol.symbolLabel = context.symbolTypes[symbol.symbolType].label;
         symbol.symbolCode = context.symbolTypes[symbol.symbolType].code;
       } catch (er) {
-        console.error("====> Symbol", this.symbol.symbolType); //context.symbolTypes);
+        this.skip = true;
+        // console.error("====> Symbol", this.symbol.symbolType); //context.symbolTypes);
       }
     }
   }

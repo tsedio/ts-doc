@@ -19,11 +19,14 @@ module.exports = {
         let symbols = 0;
 
         await Promise.all(
-          context.symbols.toArray().map((symbol) => {
-            const content = context.components.page(symbol);
-            symbols++;
-            return writeSymbol(symbol, content);
-          })
+          context.symbols
+            .toArray()
+            .filter((symbol) => symbol.skip !== true)
+            .map((symbol) => {
+              const content = context.components.page(symbol);
+              symbols++;
+              return writeSymbol(symbol, content);
+            })
         );
 
         logger(chalk.green(symbols) + " symbols write");
