@@ -38,17 +38,15 @@ class DocParser {
     const {symbols} = new DocParser(docFile.contents).parse();
 
     const promises = await Promise.all(
-      [...symbols.values()]
-        .filter((symbol) => symbol.skip !== true)
-        .map(async (symbol) => {
-          try {
-            await symbol.setDocFile(docFile);
+      [...symbols.values()].map(async (symbol) => {
+        try {
+          await symbol.setDocFile(docFile);
 
-            return symbol;
-          } catch (er) {
-            logger.error("Fail to process symbol", {symbol, error: er});
-          }
-        })
+          return symbol;
+        } catch (er) {
+          logger.error("Fail to process symbol", {symbol, error: er});
+        }
+      })
     );
 
     const parsedSymbols = await Promise.all(promises);
@@ -165,8 +163,10 @@ class DocParser {
 
     symbol.endLine = index;
 
-    if (!symbol.skip) {
-      this.setSymbol(symbol, map);
+    this.setSymbol(symbol, map);
+
+    if (["_default", "default"].includes(symbol?.symbolName) || symbol?.skip) {
+      this.symbols.delete(symbolParser.symbol?.symbolName);
     }
 
     this.currentComment = [];
